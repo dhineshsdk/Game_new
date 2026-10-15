@@ -1,0 +1,18 @@
+{
+  "id": "T-0000",
+  "goal": "One sentence describing the outcome",
+  "phase": "P2",
+  "workstream": "A",
+  "module": "CodexVehicleDynamics",
+  "inputs": ["docs/systems/example.md"],
+  "acceptance": [
+    "Unit tests X pass",
+    "No new dependency outside allowed modules"
+  ],
+  "risk": "low | medium | high",
+  "lane": "cpp | blender | editor | verify | docs | research",
+  "model": "opus | sonnet | gemini_pro | haiku | gemini_flash",
+  "review": "none | self | reviewer",
+  "needs_human": false,
+  "notes": ""
+}
