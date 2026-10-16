@@ -1,0 +1,33 @@
+{
+  "task_id": "T-0002",
+  "title": "Add stub modules so the project and both targets resolve every module they list",
+  "phase": "Phase 0 - Foundation",
+  "tier": "Tier 1",
+  "owner_agent": "Claude Sonnet 5.5",
+  "reviewer_agent": "Claude Opus 5.5",
+  "target_module": "All",
+  "reference_docs": [
+    "CLAUDE.md",
+    "docs/TECHNICAL_PHYSICS_AND_GIS_SPEC.md",
+    "Codex.uproject"
+  ],
+  "files_to_create_or_modify": [
+    "Source/CodexWorld/CodexWorld.Build.cs",
+    "Source/CodexTraffic/CodexTraffic.Build.cs",
+    "Source/CodexPhoto/CodexPhoto.Build.cs",
+    "Source/CodexAudio/CodexAudio.Build.cs",
+    "Source/CodexGameplay/CodexGameplay.Build.cs",
+    "Source/CodexUI/CodexUI.Build.cs",
+    "Source/CodexEditor/CodexEditor.Build.cs"
+  ],
+  "forbidden_dependencies": [
+    "ChaosVehicles"
+  ],
+  "acceptance_criteria": [
+    "Every module named in Codex.uproject, Codex.Target.cs and CodexEditor.Target.cs has a Source/<Module>/ folder with a .Build.cs, a Public header and a Private cpp using IMPLEMENT_MODULE.",
+    "Stub modules depend only on Core, CoreUObject, Engine and CodexCore (CodexEditor also UnrealEd); no dependency on any higher-tier Codex module.",
+    "Clean UnrealBuildTool build of the Editor and Game targets with zero warnings (NOT YET RUN: toolchain and engine are not installed)."
+  ],
+  "strike_count": 0,
+  "status": "PENDING_BUILD_VERIFICATION"
+}

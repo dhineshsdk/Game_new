@@ -25,13 +25,13 @@ Both modes use the same simulation and world. Both support multiplayer (soft mul
 6. **Together (designed in, built last):** shared world, convoys, player-run companies.
 
 ## World
-- Real-world locations, built as separate biomes one at a time: **Owens Valley / US-395 and Death Valley** (first), **Ladakh and the rest of India**, **Iceland**, **the Alps**. Order is flexible.
+- Real-world locations, built as separate biomes one at a time: the **Mono Basin** around Lee Vining (Tioga Pass, Mono Lake, Bodie) first, then US-395 south through **Owens Valley and Death Valley**, then **Ladakh and the rest of India** (the grandfather's southern Indian home is the emotional destination), **Iceland**, **the Alps**. Order is flexible; see `docs/MASTER_BLUEPRINT.md` for the tiers.
 - Regions are landmasses linked by **sea routes**. Ferries and cargo ships carry the player and vehicle between them (Stage A early; captained and owned ships much later).
 - Real-time travel by default: distance has weight. Long-leg options (cruise assist, AI driver for a leg, rest stops) always have a cost and never feel like a free skip.
 - Fictional town names and buildings inside real landscapes; fictional vehicle makes; fictional equivalents of real organisations and sign text.
 
 ## Vehicles, in story order
-Heirloom car (1980s-90s RWD, rusty to restored) and a light work pickup, then bigger rigid trucks, then articulated trucks with trailers, then more cars and barn finds, then motorcycles. Free Mode unlocks everything that exists. Each vehicle class ships when the story and the engineering are ready.
+Heirloom car (1985-1990 RWD sedan/coupe, rusty to restored) and a light work pickup, then bigger rigid trucks, then articulated trucks with trailers, then more cars and barn finds, then motorcycles. Free Mode unlocks everything that exists. Each vehicle class ships when the story and the engineering are ready.
 
 ## Photography
 Physical camera model (focal length, aperture, shutter, ISO, depth of field, handheld vs tripod) with Assisted, Semi-manual and Manual modes. Commissions and story beats check measurable criteria (subject in frame, sharp, exposure in range, light, season, weather); the game never claims to judge beauty. Journal, scrapbook and trip posters are the output.
@@ -44,8 +44,8 @@ Aircraft, player-captained ships, full mechanic simulation, drones, rigid-body c
 
 ## Success metrics
 - Phase 2 gate: the director would happily drive the heirloom for five minutes with no objective, and trusts it.
-- Vertical slice: the director drives 30 minutes in the Owens Valley with no objective and does not want to stop.
+- Vertical slice: the director drives 30 minutes in the Mono Basin with no objective and does not want to stop.
 - Career slice: the prologue and first repair loop make the director feel something.
 
 ## Source documents
-`docs/ideas.md` (all brainstorms and decisions), `docs/roadmap.md`, `docs/orchestration.md`, the Technical Blueprint (feasibility and architecture).
+`docs/MASTER_BLUEPRINT.md` (canonical world, narrative and tiers), `docs/TECHNICAL_PHYSICS_AND_GIS_SPEC.md`, `docs/CREATIVE_SYSTEMS_COMPENDIUM.md`, `docs/ideas.md` (brainstorm history and decisions), `docs/roadmap.md`, `docs/orchestration.md`, `docs/adr/`.

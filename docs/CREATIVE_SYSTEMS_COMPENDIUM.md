@@ -1,10 +1,6 @@
----
-
-### FILE 4: `docs/CREATIVE_SYSTEMS_COMPENDIUM.md` (Place in `docs/`)
-*Purpose: Preserves every single creative hook from your original brainstorms PLUS all 33 newly approved physics, audio, co-op, motorcycle, barn-find, and photography systems—complete with their target Tier and C++ module owner[cite: 1, 2].*
-
-```markdown
 # CODEX — Complete Creative Systems & Emergent Mechanics Compendium
+
+*Every creative hook from the original brainstorms plus the 33 approved physics, audio, co-op, motorcycle, barn-find and photography systems, each with its target tier and owning C++ module.*
 
 Every mechanic below passes the North Star test: *Does it make the drive more believable, more present, or more memorable?* Each system includes its **Build Tier (T1 / T2 / T3)** and **Owning Module** so C++ interfaces can accommodate it from Day 1 without code rewrites.
 
@@ -74,4 +70,4 @@ Every mechanic below passes the North Star test: *Does it make the drive more be
 30. **Mechanical "Halda" Rally Tripmeter & Odometer Log [T1]:** Gearbox-driven mechanical dashboard distance counter (which slightly over-reads on spinning mud/snow tires!) paired with grandfather's penciled odometer logbook for zero-HUD navigation in whiteouts and fog.
 31. **1974 vs. 2026 Split-Time Viewfinder & Walkabout [T1]:** Step out of the car on foot (`Viewfinder Walkabout`), hold grandfather's 1974 Polaroid up against the real landscape to see 50 years of environmental change (grown trees, receding Mono Lake waterlines, ruined gas stations), and shoot long-exposure tripod night trails or 10-second self-timer solo portraits.
 32. **Co-Op "Car-to-Car Rolling Rig" Photography [T2/T3]:** Shoot low-shutter-speed (`1/30s`) rolling shots of a friend's car or bike from the passenger window or lowered tailgate of a lead pickup truck.
-33. **The Road Remembers, Traveler's Exchange Box & CB Channel 9 [T1/T2]:** Persistent world-space decal buffers keep your faint skidmarks and old campfire stones for weeks; 24/7 roadside diners/dhabas feature a physical **Traveler's Box** where players leave recorded cassettes and developed Polaroids that track their multi-player provenance across continents; rescuing a stranded player via **CB Channel 9** awards both drivers a permanent *"Saved by a Stranger"* scrapbook Polaroid
+33. **The Road Remembers, Traveler's Exchange Box & CB Channel 9 [T1/T2]:** Persistent world-space decal buffers keep your faint skidmarks and old campfire stones for weeks; 24/7 roadside diners/dhabas feature a physical **Traveler's Box** where players leave recorded cassettes and developed Polaroids that track their multi-player provenance across continents; rescuing a stranded player via **CB Channel 9** awards both drivers a permanent *"Saved by a Stranger"* scrapbook Polaroid.

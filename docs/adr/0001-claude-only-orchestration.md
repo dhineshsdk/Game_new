@@ -1,6 +1,6 @@
 # ADR 0001: Claude-only orchestration
 
-- Status: accepted
+- Status: superseded by ADR 0002 (2026-10-15)
 - Date: 2026-10-04
 - Phase / workstream: I (tooling)
 

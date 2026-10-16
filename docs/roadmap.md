@@ -37,8 +37,8 @@ Async substep physics in Unreal, input (wheel/gamepad/keyboard), telemetry HUD, 
 Head-motion model, FOV cues, parameterised engine/tyre/wind audio, condition-driven rattles.
 **Gate:** the director feels the car's condition through sound and motion. Size: M.
 
-### P5. Owens Valley corridor (B)
-~20-30 km real-elevation corridor, road kit (spline to mesh, markings, shoulders, guardrails, signs), surfaces and grip, gravel loops, pass climb, fictional small town. Drive-through validation bot.
+### P5. Mono Basin corridor (B)
+Mono Basin LiDAR corridor around Lee Vining (SR 120 Tioga Pass climb, Mono Lake, Bodie gravel road, June Lake; blueprint scope 35.7 x 26.95 km, about 30 km of road), USGS 3DEP 1 m terrain in EPSG:6340, road kit (spline to mesh, markings, shoulders, guardrails, signs), surfaces and grip, washboard gravel, fictional small town, one barn workshop, one gas station, one diner. Drive-through validation bot.
 **Gate:** the director drives the corridor and likes the rhythm. Size: XL.
 
 ### P6. Time, weather, sky (D)
@@ -58,12 +58,13 @@ Inheritance, first repair, first scenic drive with the camera, first clue, hand-
 **Gate:** the prologue makes the director feel something. Size: L.
 
 ### P10. Vertical slice release candidate
-Heirloom + work pickup, Owens Valley corridor, day/night, clear/rain, fuel, jobs, photography, prologue, simple traffic (a few lane-following AI cars), parameterised audio, packaged build, performance budget met.
+Heirloom + work pickup, Mono Basin corridor, day/night, clear/rain, fuel, jobs, photography, prologue, simple traffic (a few lane-following AI cars), parameterised audio, packaged build, performance budget met.
 **Gate:** 30-minute no-objective drive test + packaged build passes perf and soak tests. Size: M.
 
 ## After the slice (each its own project with a gate)
 | Phase | Content | Difficulty |
 |---|---|---|
+| P10b US-395 south extension | Owens Valley, Whitney Portal Road, Alabama Hills, Death Valley (blueprint Tier 2, Act 1 extension); same pipeline, 200+ km | High |
 | P11 Soft multiplayer | Shared clock/weather, visible players, no contact, session/lobby | Very High |
 | P12 Second region | Ladakh/Manali-Leh (or Iceland), altitude engine loss, left-hand traffic, region as data asset | High |
 | P13 Ferry interlude (Ocean Stage A) | RoRo ship, loading, crossing scene, port arrival | Medium |
@@ -76,6 +77,12 @@ Heirloom + work pickup, Owens Valley corridor, day/night, clear/rain, fuel, jobs
 | P20 Convoys and company multiplayer | Voice, CB, shared depot, co-op career | Very High |
 | P21 Ocean Stage B/C | Explorable ship, then captained ships | Very High |
 | P22 Deep repair simulation | Full mechanic sim (optional far future) | High |
+
+## Mapping to the Master Blueprint tiers (`docs/MASTER_BLUEPRINT.md`)
+- **Tier 1, Mono Basin vertical slice:** P0-P10.
+- **Tier 2, continental expansion and co-op:** P10b, P11 (soft multiplayer and co-op hooks), P12 (first international biome, Ladakh/Spiti or Iceland), P13 (Ro-Ro ferry), P18 (barn-find builds); border/visa/toll systems and the 2-vehicle co-op belong here.
+- **Tier 3, full living world:** southern India port and Western Ghats, the Alps, P14-P15 (trucks), P16, P19 (motorcycles), P20 (convoys and seat-swap co-op), P21 (ocean stages B/C).
+Note: story order (Act 3 southern India before Act 4 the Himalaya) differs from the build order (Ladakh/Spiti before southern India). Decide how Career handles the gap before Tier 2 starts.
 
 ## Cross-cutting rules
 - Always a playable build at the end of each phase.

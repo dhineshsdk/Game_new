@@ -12,6 +12,7 @@
 | Task ID | Status | Assigned Agent | Module | Summary |
 | :--- | :--- | :--- | :--- | :--- |
 | `T-0001` | **COMPLETED** | Claude Sonnet 5.5 / Antigravity | `All` | Initialized UE 5.4/5.5 `.uproject`, Target.cs, `.Build.cs` & C++ module skeletons (`CodexCore`, `CodexVehicleDynamics`, `CodexVehicles`, `CodexTests`). |
+| `T-0002` | **PENDING_BUILD_VERIFICATION** | Claude Sonnet 5.5 | `All` | Added stub modules (`CodexWorld`, `CodexTraffic`, `CodexPhoto`, `CodexAudio`, `CodexGameplay`, `CodexUI`, `CodexEditor`) so `Codex.uproject` and both Target files resolve. Files written but not compiled: no Visual Studio, no installed engine. T-0001 is also unbuilt. |
 | `T-0101` | **READY** | Claude Sonnet 5.5 | `CodexVehicleDynamics` | Implement pure C++ Pacejka MF94 tire model (`CodexTireModel.h/.cpp`) with combined slip and relaxation length. |
 | `T-0102` | **QUEUED** | Gemini 3.1 Pro | `CodexEditor` | Write Python script to fetch USGS 3DEP 1m DEM for Mono Basin (`EPSG:6340`) and convert to 16-bit PNG heightmap (`Scale.Z = 400.396735`). |
 | `T-0201` | **QUEUED** | Claude Sonnet 5.5 | `CodexVehicleDynamics` | Implement pure C++ 120 Hz solver (`FCodexVehicleSimulationState`) and headless unit tests (`CodexTests`) verifying static axle loads ($6759\text{ N}$ F / $5994\text{ N}$ R) and steady-state lateral G. |

@@ -1,18 +1,25 @@
 {
-  "id": "T-0000",
-  "goal": "One sentence describing the outcome",
-  "phase": "P2",
-  "workstream": "A",
-  "module": "CodexVehicleDynamics",
-  "inputs": ["docs/systems/example.md"],
-  "acceptance": [
-    "Unit tests X pass",
-    "No new dependency outside allowed modules"
+  "task_id": "T-0000",
+  "title": "One-line outcome of the task",
+  "phase": "Phase 2 - Dynamics Core",
+  "tier": "Tier 1",
+  "owner_agent": "Claude Sonnet 5.5",
+  "reviewer_agent": "Claude Opus 5.5",
+  "target_module": "CodexVehicleDynamics",
+  "reference_docs": [
+    "CLAUDE.md",
+    "docs/TECHNICAL_PHYSICS_AND_GIS_SPEC.md"
   ],
-  "risk": "low | medium | high",
-  "lane": "cpp | blender | editor | verify | docs | research",
-  "model": "opus | sonnet | gemini_pro | haiku | gemini_flash",
-  "review": "none | self | reviewer",
-  "needs_human": false,
-  "notes": ""
+  "files_to_create_or_modify": [
+    "Source/CodexVehicleDynamics/Public/Example.h"
+  ],
+  "forbidden_dependencies": [
+    "ChaosVehicles"
+  ],
+  "acceptance_criteria": [
+    "Compiles cleanly with zero warnings under UnrealBuildTool.",
+    "Runnable test or measurable check that decides pass/fail."
+  ],
+  "strike_count": 0,
+  "status": "READY"
 }
