@@ -295,6 +295,18 @@ Iceland and the Alps are not on the main trail; they work as optional "postcard"
 6. **Names on things** [S] - road signs, shop boards, and lorry slogans use real regional languages; subtitles optional.
 7. **The last photograph** [M] - the grandfather's final unfinished photo assignment: a place he planned to shoot at a particular time of year. The player finishes it.
 
+## Brainstorm round 5 (2026-10-16)
+1. **Read the sky** [M] - the Mono Basin has famous lenticular clouds and sudden mountain storms. A skill, not a HUD: cloud shapes, a pocket barometer and an altimeter predict wind and weather, taught through the grandfather's notes. Fuses weather, photography and the logbook.
+2. **Marginalia in the atlas** [M] - his 1974 road atlas carries his pencil arrows, tea stains, phone numbers and notes, some in Tamil. The paper atlas is the navigation tool and the notes are clues; an optional glossary lets the player slowly learn the words. Needs native Tamil review.
+3. **Letters you can answer** [M/L] - the unsent letters can be replied to by choosing lines; in Act 3 the relatives answer, referencing what you wrote. A few authored exchanges beat many generic ones.
+4. **Dead zones** [S/M] - Mono Basin cellular coverage is patchy (verify). Information scarcity is a feature: payphones with coins, AM radio road-closure announcements, CB, and paper maps. Pass openings and closures arrive through the radio.
+5. **The walk-around ritual with proficiency** [M] - oil on the dipstick rag, tyre kick, listen to the cold start, choke. After you have done it a few times it becomes one press, but a rare real defect can still surface. A flight-sim checklist feeling without the grind.
+6. **Season calendar events** [M] - Tioga Road opening day after the plows, aspen colour peak on the June Lake Loop, first snow closure. Photographer's calendar, tied to real seasonal data.
+7. **Odometer log as pace notes** [M] - in co-op, the co-driver reads the grandfather's logbook aloud as rally-style notes on the Bodie gravel road ("at 212,300, washboard, ease off").
+8. **The exhibition and the book** [M] - the arc ends with a small show in the grandfather's town and a printable photo book of the journey generated from the player's own shots. A keepsake that is yours.
+9. **A dog in the pickup** [M/L] - a companion that rides on the seat, reacts to bumps, rain and stops, and sleeps on long legs. Warm and cheap in systems, moderate in animation. Optional.
+10. **Altitude and the body** [M] - headaches, breath and slower reactions on very high passes, paired with the carburettor altitude effects. Subtle audio and camera, never a punishing meter.
+
 ## Open design questions for the director
 - Confirm Mono Basin as the starting hub (Owens Valley later), or keep the Owens Valley, or choose another?
 - Where in India is the grandfather's village: Punjab, Kerala/Tamil Nadu, Himachal/Ladakh, or elsewhere?
