@@ -1,12 +1,22 @@
 {
   "_comment": "All geography for the terrain pipeline lives here (ADR 0006). Scripts read this file; they hold no coordinates.",
-  "world_box_wgs84": { "west": -119.27, "east": -118.96, "south": 37.89, "north": 38.215 },
+  "world_box_wgs84": {
+    "west": -119.27,
+    "east": -118.96,
+    "south": 37.89,
+    "north": 38.215
+  },
   "projected_crs": "EPSG:26911",
   "vertical_datum": "NAVD88 metres",
   "source": {
     "tnm_dataset": "Digital Elevation Model (DEM) 1 meter",
     "project": "CA_SierraNevada_B22",
-    "tnm_api": "https://tnmaccess.nationalmap.gov/api/v1/products"
+    "tnm_api": "https://tnmaccess.nationalmap.gov/api/v1/products",
+    "supplementary_projects": [
+      "CA_YosemiteNP_2019_D19",
+      "NV_WestCentral_EarthMRI_2020_D20"
+    ],
+    "_supplementary_note": "Used only where the primary project has no data (the B22 tile over Yosemite National Park is 54 percent empty)."
   },
   "output": {
     "vertex_spacing_m": 2.0,
@@ -15,5 +25,9 @@
     "z_margin_m": 20.0,
     "tile_components": 8
   },
-  "z_range_estimate_m": { "min": 1900.0, "max": 4000.0, "_note": "estimate only; build_heightmap.py measures the real range from the DEM" }
+  "z_range_estimate_m": {
+    "min": 1900.0,
+    "max": 4000.0,
+    "_note": "estimate only; build_heightmap.py measures the real range from the DEM"
+  }
 }

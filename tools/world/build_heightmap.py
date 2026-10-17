@@ -63,7 +63,9 @@ def assemble(grid):
     # Vertex (i, j) is the centre of a cell of size s: the raster origin is half a cell up and left.
     dst_transform = from_origin(grid["origin_e"] - s / 2, grid["origin_n"] + s / 2, s, s)
     dst_left, dst_top = grid["origin_e"] - s / 2, grid["origin_n"] + s / 2
-    files = sorted(glob.glob(os.path.join(RAW, "*.tif")))
+    primary = CONFIG["source"]["project"]
+    # primary project first; supplementary tiles only ever fill cells that are still empty
+    files = sorted(glob.glob(os.path.join(RAW, "*.tif")), key=lambda f: (primary not in os.path.basename(f), os.path.basename(f)))
     if not files:
         raise SystemExit("no DEM tiles in data/raw/dem; run fetch_dem.py first")
     for path in files:
@@ -156,6 +158,7 @@ def main():
               "formula": "world_z_cm = actor_z_cm + (count - 32768) * scale_z / 128"},
         "world_box_utm": grid["box_utm"],
         "nodata_cells_before_fill": nodata_before,
+        "source_files": sorted(os.path.basename(f) for f in glob.glob(os.path.join(RAW, "*.tif"))),
         "wall_time_s": round(time.time() - t_start, 1),
     }
     with open(os.path.join(OUT, "heightmap.json"), "w", encoding="utf-8", newline="\n") as f:

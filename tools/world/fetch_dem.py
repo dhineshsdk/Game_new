@@ -45,11 +45,14 @@ def query_products():
 
 def select_tiles(items):
     project = CONFIG["source"]["project"]
+    extra = CONFIG["source"].get("supplementary_projects", [])
     tiles = []
     for it in items:
-        if project not in it["title"]:
+        role = "primary" if project in it["title"] else ("supplementary" if any(x in it["title"] for x in extra) else None)
+        if role is None:
             continue
         tiles.append({
+            "role": role,
             "title": it["title"],
             "url": it["downloadURL"],
             "size_bytes": it["sizeInBytes"],

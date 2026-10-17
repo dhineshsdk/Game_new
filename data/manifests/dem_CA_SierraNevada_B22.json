@@ -2,7 +2,12 @@
   "source": {
     "tnm_dataset": "Digital Elevation Model (DEM) 1 meter",
     "project": "CA_SierraNevada_B22",
-    "tnm_api": "https://tnmaccess.nationalmap.gov/api/v1/products"
+    "tnm_api": "https://tnmaccess.nationalmap.gov/api/v1/products",
+    "supplementary_projects": [
+      "CA_YosemiteNP_2019_D19",
+      "NV_WestCentral_EarthMRI_2020_D20"
+    ],
+    "_supplementary_note": "Used only where the primary project has no data (the B22 tile over Yosemite National Park is 54 percent empty)."
   },
   "world_box_wgs84": {
     "west": -119.27,
@@ -10,115 +15,190 @@
     "south": 37.89,
     "north": 38.215
   },
-  "queried_utc": "2026-10-17T15:36:56Z",
-  "tile_count": 15,
-  "total_bytes": 3333330964,
+  "queried_utc": "2026-10-17T16:56:29Z",
+  "tile_count": 18,
+  "total_bytes": 3523637374,
   "licence": "USGS 3DEP data are U.S. Government works in the public domain; credit USGS 3D Elevation Program.",
   "tiles": [
     {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x30y420 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x30y420_CA_SierraNevada_B22.tif",
       "size_bytes": 129096988,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x30y420_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x30y420_CA_SierraNevada_B22.tif",
+      "sha256": "afae0c4e6579e15fcd0fd5de1c53be604591acb9ab450d612bf07acf6339c4d1",
+      "verified_size": 129096988
     },
     {
+      "role": "supplementary",
+      "title": "USGS 1 Meter 11 x30y420 CA_YosemiteNP_2019_D19",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_YosemiteNP_2019_D19/TIFF/USGS_1M_11_x30y420_CA_YosemiteNP_2019_D19.tif",
+      "size_bytes": 161284167,
+      "published": "2021-06-30",
+      "file": "USGS_1M_11_x30y420_CA_YosemiteNP_2019_D19.tif",
+      "sha256": "df65d3da8db31446fcd31533e8a1ecdc0529f5b02cc5f900efca9a1cf2da50c6",
+      "verified_size": 161284167
+    },
+    {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x30y421 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x30y421_CA_SierraNevada_B22.tif",
       "size_bytes": 278596392,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x30y421_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x30y421_CA_SierraNevada_B22.tif",
+      "sha256": "b2b923c6810442a77a8e945151165cba93a1a3326ef31ab385723a1cf48d0553",
+      "verified_size": 278596392
     },
     {
+      "role": "supplementary",
+      "title": "USGS 1 Meter 11 x30y421 CA_YosemiteNP_2019_D19",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_YosemiteNP_2019_D19/TIFF/USGS_1M_11_x30y421_CA_YosemiteNP_2019_D19.tif",
+      "size_bytes": 11486695,
+      "published": "2021-06-30",
+      "file": "USGS_1M_11_x30y421_CA_YosemiteNP_2019_D19.tif",
+      "sha256": "21e1fde140c005905d16aad1a64301b4098a45e8034630deabdab67517d2dd97",
+      "verified_size": 11486695
+    },
+    {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x30y422 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x30y422_CA_SierraNevada_B22.tif",
       "size_bytes": 269956020,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x30y422_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x30y422_CA_SierraNevada_B22.tif",
+      "sha256": "709362b7a76427ce249ae334da6d6a023ede735314e4f592df9e41e08fb15602",
+      "verified_size": 269956020
     },
     {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x30y423 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x30y423_CA_SierraNevada_B22.tif",
       "size_bytes": 261378028,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x30y423_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x30y423_CA_SierraNevada_B22.tif",
+      "sha256": "ea16e0d1fbb0505625ad330f18a8f59dda3055dfbaac3bd4ef6b93a6f0287c04",
+      "verified_size": 261378028
     },
     {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x30y424 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x30y424_CA_SierraNevada_B22.tif",
       "size_bytes": 246138027,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x30y424_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x30y424_CA_SierraNevada_B22.tif",
+      "sha256": "b4382d3d7dd6bc7b04b85d9a2256916fbd8df2419c74f9ef30a7e48fa07476e5",
+      "verified_size": 246138027
     },
     {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x31y420 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x31y420_CA_SierraNevada_B22.tif",
       "size_bytes": 247539729,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x31y420_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x31y420_CA_SierraNevada_B22.tif",
+      "sha256": "3a15c03e91ecbffc28d9bae03ab94a18b017a5f2101cc8d7680f6a884fd836f2",
+      "verified_size": 247539729
     },
     {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x31y421 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x31y421_CA_SierraNevada_B22.tif",
       "size_bytes": 151195309,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x31y421_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x31y421_CA_SierraNevada_B22.tif",
+      "sha256": "58f3f585c738ce22ba8127e6670f36ed0c16771aeb37c46a850b899c7cf4ba53",
+      "verified_size": 151195309
     },
     {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x31y422 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x31y422_CA_SierraNevada_B22.tif",
       "size_bytes": 247223578,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x31y422_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x31y422_CA_SierraNevada_B22.tif",
+      "sha256": "6da49890b99f3de3a1fc1af80f620cddff1899a7ac34077ad9db07d0d97191e0",
+      "verified_size": 247223578
     },
     {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x31y423 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x31y423_CA_SierraNevada_B22.tif",
       "size_bytes": 259884787,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x31y423_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x31y423_CA_SierraNevada_B22.tif",
+      "sha256": "f46196713d0cf1cf557ea43acf7a79298c174d92b8fdbea1828795036539cc10",
+      "verified_size": 259884787
     },
     {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x31y424 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x31y424_CA_SierraNevada_B22.tif",
       "size_bytes": 258225028,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x31y424_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x31y424_CA_SierraNevada_B22.tif",
+      "sha256": "0f8c8c4c9ad0ad0a7662392e340f1c7882ddd769ce8091966287197a6dd889ad",
+      "verified_size": 258225028
     },
     {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x32y420 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x32y420_CA_SierraNevada_B22.tif",
       "size_bytes": 248448206,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x32y420_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x32y420_CA_SierraNevada_B22.tif",
+      "sha256": "7122bf1b9eb65d33dd253e9486d847d5b6799edeacba9fb6cfb88263531100dd",
+      "verified_size": 248448206
     },
     {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x32y421 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x32y421_CA_SierraNevada_B22.tif",
       "size_bytes": 91754691,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x32y421_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x32y421_CA_SierraNevada_B22.tif",
+      "sha256": "2638f2e070d147c3af556a7106faad1041fb3b2b5c11b5b41358f2bd980a5ae1",
+      "verified_size": 91754691
     },
     {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x32y422 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x32y422_CA_SierraNevada_B22.tif",
       "size_bytes": 129358392,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x32y422_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x32y422_CA_SierraNevada_B22.tif",
+      "sha256": "9efe55d7bf2648b7bcc94a7bd3c816a953675c0929f6d252ef1adc1aa3fc7b75",
+      "verified_size": 129358392
     },
     {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x32y423 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x32y423_CA_SierraNevada_B22.tif",
       "size_bytes": 260615594,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x32y423_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x32y423_CA_SierraNevada_B22.tif",
+      "sha256": "3eb6e90e9269375d8437e8eb07729579b232421666ab08160099be0f18911c66",
+      "verified_size": 260615594
     },
     {
+      "role": "primary",
       "title": "USGS 1 Meter 11 x32y424 CA_SierraNevada_B22",
       "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SierraNevada_B22/TIFF/USGS_1M_11_x32y424_CA_SierraNevada_B22.tif",
       "size_bytes": 253920195,
       "published": "2025-05-15",
-      "file": "USGS_1M_11_x32y424_CA_SierraNevada_B22.tif"
+      "file": "USGS_1M_11_x32y424_CA_SierraNevada_B22.tif",
+      "sha256": "8e307b15f0c18dd542cc0964c7280274911b67457516738fe3136a4b97ec1f39",
+      "verified_size": 253920195
+    },
+    {
+      "role": "supplementary",
+      "title": "USGS 1 Meter 11 x32y424 NV_WestCentral_EarthMRI_2020_D20",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NV_WestCentral_EarthMRI_2020_D20/TIFF/USGS_1M_11_x32y424_NV_WestCentral_EarthMRI_2020_D20.tif",
+      "size_bytes": 17535548,
+      "published": "2023-03-08",
+      "file": "USGS_1M_11_x32y424_NV_WestCentral_EarthMRI_2020_D20.tif",
+      "sha256": "0749fe6e28301a5af0045062e5ab4b55fb988eb231668b6f257dcb0b519a487d",
+      "verified_size": 17535548
     }
   ]
 }

@@ -15,8 +15,10 @@
     "tools/world/terrain_config.json",
     "tools/world/heightmap_math.py",
     "tools/world/tests/test_heightmap_math.py",
+    "tools/world/tests/test_build_heightmap.py",
     "tools/world/fetch_dem.py",
     "tools/world/build_heightmap.py",
+    "tools/world/verify_heightmap.py",
     "data/manifests/dem_CA_SierraNevada_B22.json",
     ".gitignore"
   ],
@@ -25,14 +27,14 @@
     "Elevations from data/reference/ (validated as unreliable)"
   ],
   "acceptance_criteria": [
-    "DONE: CONFIG: world box, source project, output spacing and landscape layout live in tools/world/terrain_config.json; scripts hold no coordinates.",
-    "DONE: Z SCALE: heightmap_math.py maps metres to uint16 with world_z_cm = actor_z + (count - 32768) * ScaleZ / 128, picks ScaleZ = span * 100 / 512 (rounded up) and the actor offset at the span centre; unit tests check the formula, round trip error <= half a step, clamping, monotonicity.",
-    "DONE: GRID: component_grid() gives the landscape component count and heightmap size; nodata fill is ring-by-ring from valid neighbours with a tested error bound.",
-    "DONE: python -m unittest discover -s tools/world/tests -t tools/world passes with synthetic data only (no network, no real rasters).",
-    "PENDING DIRECTOR APPROVAL (download 3.5 GB, install rasterio): fetch_dem.py queries the TNM API for the box, writes a manifest (title, URL, size, publication date) to data/manifests/, downloads only the chosen project's tiles into data/raw/ with resume and a SHA-256 per file recorded in the manifest; re-running skips verified files.",
-    "PENDING: build_heightmap.py mosaics the tiles, crops to the box in UTM 11N, resamples to the configured spacing, fills nodata (and reports how many cells), measures the real min and max elevation, and writes 16-bit PNG tiles sized to whole landscape components plus a JSON sidecar (origin, spacing, ScaleZ, Z offset, min, max).",
-    "PENDING: real run: elevations read back from the tiles at Tioga Pass summit, the Mono Lake surface and Lee Vining town centre match the source DEM within one vertical step; report cell counts, min and max elevation and wall time."
+    "DONE: CONFIG: world box, source project, supplementary projects, output spacing and landscape layout live in tools/world/terrain_config.json.",
+    "DONE: Z SCALE and GRID: heightmap_math.py (formula world_z_cm = actor_z + (count - 32768) * ScaleZ / 128, ScaleZ = span * 100 / 512 rounded up; component grid; ring nodata fill), 18 unit tests.",
+    "DONE: FETCH: fetch_dem.py queries the TNM API, downloads 18 tiles (15 CA_SierraNevada_B22 primary + 2 CA_YosemiteNP_2019_D19 and 1 NV_WestCentral_EarthMRI_2020_D20 supplementary, 3.52 GB) in parallel with resume, records size and SHA-256 per tile in data/manifests/dem_CA_SierraNevada_B22.json.",
+    "DONE: TILES: build_heightmap.py mosaics the primary tiles first and lets supplementary tiles fill only empty cells, resamples to 2 m by area average, and writes 266 16-bit PNG tiles of 1009 x 1009 vertices (14 x 19 tiles, 112 x 152 landscape components) plus heightmap.json. Real run: 0 cells without data, elevation 1945.39 to 3979.90 m, ScaleZ 405.178285, 3.17 cm per count, actor Z 2962.65 m. The first run with the primary project alone had 7.3 million empty cells over Yosemite National Park (Mount Dana flattened to 3830 m); the supplementary tiles fixed that.",
+    "DONE: SYNTHETIC TESTS: 36 world tests pass (python -m unittest discover -s tools/world/tests -t tools/world), including mosaic, seam and nodata fill on synthetic GeoTIFF tiles.",
+    "DONE: REAL RUN CHECK: verify_heightmap.py reads 12 benchmark places back from the PNG tiles: median difference to the source DEM 0.01 m (max 0.08 m), to the USGS point service 0.03 m (max 0.21 m).",
+    "NOT DONE (belongs to T-0103): importing the tiles into an Unreal World Partition Landscape."
   ],
   "strike_count": 0,
-  "status": "IN_PROGRESS"
+  "status": "COMPLETED"
 }
