@@ -8,7 +8,7 @@
   "target_module": "CodexVehicleDynamics",
   "reference_docs": ["CLAUDE.md", "docs/adr/0005-dynamics-module-purity.md"],
   "files_to_create_or_modify": [
-    "Source/CodexCore/Public/CodexHash.h (not yet written)",
+    "Source/CodexCore/Public/CodexHash.h",
     "Source/CodexVehicleDynamics/Public/CodexStateSnapshot.h",
     "Source/CodexVehicleDynamics/Private/CodexStateSnapshot.cpp",
     "Tests/Headless/Dynamics/StateSnapshotTests.cpp",
@@ -25,5 +25,5 @@
     "BUILD: purity check passes, headless harness passes with /W4 /WX, UBT CodexEditor Win64 Development 0 errors 0 warnings."
   ],
   "strike_count": 0,
-  "status": "QUEUED"
+  "status": "COMPLETED"
 }

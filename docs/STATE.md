@@ -2,8 +2,8 @@
 
 **Last Updated:** 2026-10-17  
 **Current Execution Tier:** TIER 1 (Mono Basin Vertical Slice)  
-**Current Phase:** Phase 2 (Dynamics Core): pure core and tyre model done; next T-0008 (state snapshot and hash), then T-0201 (120 Hz solver)  
-**Build Status:** GREEN (UE 5.8.3, CodexEditor Win64 Development, 0 errors / 0 warnings; headless harness 18/18; automation smoke test passes; purity check passes)
+**Current Phase:** Phase 2 (Dynamics Core): pure core, tyre model and state snapshot done; world reference requested from Gemini (prompt P-0002); next T-0201 (120 Hz solver) or world tasks once R-0002 arrives  
+**Build Status:** GREEN (UE 5.8.3, CodexEditor Win64 Development, 0 errors / 0 warnings; headless harness 31/31; automation smoke test passes; purity check passes)
 
 ---
 
@@ -20,7 +20,7 @@
 | `T-0007` | **COMPLETED** | Claude Opus 5.5 | `CodexVehicleDynamics` | Params and state are plain `Codex::Dynamics` structs (double, trivially copyable). `FrontWeightDistributionPercent` renamed `FrontWeightFraction`. Former automation tests moved to the harness; `Codex.Physics.PureDynamicsSmoke` stays in CodexTests and passes. |
 | `T-0101` | **COMPLETED** | Claude Opus 5.5 | `CodexVehicleDynamics` | Pacejka MF94 tyre model (`CodexTireModel.h/.cpp`). Independent review found 2 latent defects and 2 test gaps, all fixed (`agents/reviews/T-0101.review.md`): bounded combined slip for unsupported data, sanitised non-finite slips, distinct longitudinal golden data. 30,405-row golden CSV; 22/22 headless tests. |
 | `T-0102` | **WAITING ON RESEARCH** | Gemini 3.1 Pro | `CodexEditor` | Write Python script to fetch USGS 3DEP 1m DEM for Mono Basin (`EPSG:6340`) and convert to 16-bit PNG heightmap (`Scale.Z = 400.396735`). |
-| `T-0008` | **QUEUED** | Claude Opus 5.5 | `CodexVehicleDynamics` | Versioned binary snapshot and FNV-1a state hash (spec in `agents/tasks/T-0008.json`). |
+| `T-0008` | **COMPLETED** | Claude Opus 5.5 | `CodexVehicleDynamics` | Versioned binary snapshot (format v1, 556 bytes, little-endian, one shared field list) and FNV-1a 64 state hash. Default-state hash pinned and cross-checked with an independent Python encoder; every field affects the hash; padding never hashed; 72,000-step scripted run hashes identically twice. 31/31 headless tests, UBT 0 warnings. Not independently reviewed yet. |
 | `T-0201` | **QUEUED** | Claude Sonnet 5.5 | `CodexVehicleDynamics` | Implement pure C++ 120 Hz solver (`FCodexVehicleSimulationState`) and headless unit tests (`CodexTests`) verifying static axle loads ($6759\text{ N}$ F / $5994\text{ N}$ R) and steady-state lateral G. |
 
 ---

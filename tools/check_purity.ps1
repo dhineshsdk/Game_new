@@ -4,7 +4,7 @@
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 
-$allowedStd = @('cmath', 'cstdint', 'cstddef', 'array', 'type_traits', 'limits')
+$allowedStd = @('cmath', 'cstdint', 'cstddef', 'array', 'type_traits', 'limits', 'bit')
 $banned = @(
     'CoreMinimal', '\bUSTRUCT\b', '\bUCLASS\b', '\bUPROPERTY\b', '\bUFUNCTION\b', '\bGENERATED_BODY\b', '\.generated\.h',
     '\bUE_LOG\b', '\bFVector\w*', '\bFQuat\b', '\bFQuat4\w*', '\bFMath\b', '\bTArray\b', '\bFString\b', '\bTEXT\(',
