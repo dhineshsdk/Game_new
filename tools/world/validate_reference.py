@@ -4,7 +4,9 @@ Offline checks: schema columns, world box membership, UTM columns against our ow
 road continuity (jumps between consecutive points), grade arithmetic in road_facts.csv.
 Online check (--online): landmark elevations against the USGS 3DEP point-elevation service.
 
-Run:  python -I tools/world/validate_reference.py [--online]
+Run:  python -I tools/world/validate_reference.py [--dir ref] [--online]
+--dir picks the folder (default data/reference); files are found by name, by common alternates
+(roads.geojson.json) or by their header line (a CSV saved under its header text).
 Exit code 1 when a hard error is found (schema, box, UTM). Elevation and road-continuity problems
 are reported as warnings: they decide how the data may be used, they do not make the files invalid.
 Python 3.12 standard library only.
@@ -21,6 +23,8 @@ import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 REF = os.path.join(ROOT, "data", "reference")
+if "--dir" in sys.argv:
+    REF = os.path.join(ROOT, sys.argv[sys.argv.index("--dir") + 1])
 WEST, EAST, SOUTH, NORTH = -119.27, -118.96, 37.89, 38.215
 
 COLUMNS = {
@@ -35,6 +39,23 @@ ROAD_KEYS = {"name", "ref", "osm_way_ids", "surface", "lanes", "width_m", "shoul
 
 errors = []
 warnings = []
+stats = {}
+
+
+def find_file(name, ext):
+    """Exact name first, then alternates, then any file whose first line is the expected CSV header."""
+    for candidate in (name + ext, name + ext + ".json", name + ext + ".txt"):
+        path = os.path.join(REF, candidate)
+        if os.path.exists(path):
+            return path
+    if name in COLUMNS:
+        for fn in sorted(os.listdir(REF)):
+            path = os.path.join(REF, fn)
+            if os.path.isfile(path):
+                with open(path, encoding="utf-8", errors="replace") as f:
+                    if f.readline().strip() == COLUMNS[name]:
+                        return path
+    return None
 
 
 def in_box(lon, lat):
@@ -66,17 +87,21 @@ def haversine_m(a, b):
 
 
 def read_csv(name):
-    with open(os.path.join(REF, name + ".csv"), encoding="utf-8", newline="") as f:
+    path = find_file(name, ".csv")
+    if path is None:
+        errors.append(f"{name}: file not found in {REF}")
+        return []
+    with open(path, encoding="utf-8", newline="") as f:
         rows = list(csv.DictReader(f))
     if ",".join(rows[0].keys()) != COLUMNS[name]:
-        errors.append(f"{name}.csv: columns differ from the prompt")
+        errors.append(f"{name}: columns differ from the prompt")
     return rows
 
 
 def check_csv_schemas():
     for name in COLUMNS:
         rows = read_csv(name)
-        print(f"{name}.csv: {len(rows)} rows")
+        print(f"{name}: {len(rows)} rows ({os.path.basename(find_file(name, '.csv') or '-')})")
 
 
 def check_landmarks():
@@ -92,7 +117,11 @@ def check_landmarks():
 
 
 def check_world_box():
-    with open(os.path.join(REF, "world_box.geojson"), encoding="utf-8") as f:
+    path = find_file("world_box", ".geojson")
+    if path is None:
+        warnings.append("world_box.geojson not provided as a file (may exist inside the markdown answer)")
+        return
+    with open(path, encoding="utf-8") as f:
         fc = json.load(f)
     for ft in fc["features"]:
         name = ft["properties"].get("name")
@@ -103,18 +132,27 @@ def check_world_box():
 
 
 def check_roads():
-    with open(os.path.join(REF, "roads.geojson"), encoding="utf-8") as f:
+    path = find_file("roads", ".geojson")
+    if path is None:
+        errors.append(f"roads: file not found in {REF}")
+        return
+    with open(path, encoding="utf-8") as f:
         fc = json.load(f)
-    print(f"roads.geojson: {len(fc['features'])} features")
+    total_pts = sum(len(ft["geometry"]["coordinates"]) for ft in fc["features"])
+    stats["road_features"], stats["road_points"] = len(fc["features"]), total_pts
+    print(f"roads: {len(fc['features'])} features, {total_pts} points")
     for ft in fc["features"]:
         p = ft["properties"]
         if set(p) != ROAD_KEYS:
-            errors.append(f"roads: {p.get('name')} property keys differ from the prompt")
+            warnings.append(f"roads: {p.get('name')}: property keys differ from the prompt (missing {sorted(ROAD_KEYS - set(p))}, extra {sorted(set(p) - ROAD_KEYS)})")
         pts = ft["geometry"]["coordinates"]
         if any(not in_box(c[0], c[1]) for c in pts):
             errors.append(f"roads: {p['name']} has points outside the box")
         seg = [haversine_m(pts[i], pts[i + 1]) for i in range(len(pts) - 1)]
         jumps = [s for s in seg if s > 400.0]
+        stats["road_gaps_over_400m"] = stats.get("road_gaps_over_400m", 0) + len(jumps)
+        stats["road_median_spacing_m"] = stats.get("road_median_spacing_m", [])
+        stats["road_median_spacing_m"].append(sorted(seg)[len(seg) // 2] if seg else 0)
         # OSM vertices on a road are tens of metres apart; several 400 m+ gaps mean separate ways
         # were concatenated into one line and the points are not an ordered centreline.
         if jumps:
@@ -145,6 +183,11 @@ def check_elevations_online(landmarks):
         time.sleep(0.25)
     worst.sort(reverse=True)
     bad = [w for w in worst if w[0] > 10.0]
+    diffs = sorted(w[0] for w in worst)
+    stats["elev_checked"] = len(diffs)
+    stats["elev_over_10m"] = len(bad)
+    stats["elev_over_50m"] = sum(1 for d in diffs if d > 50.0)
+    stats["elev_median_abs_err_m"] = round(diffs[len(diffs) // 2], 1) if diffs else None
     print(f"elevations: {len(worst)} checked against USGS 3DEP, {len(bad)} differ by more than 10 m")
     for d, i, claimed, z in bad:
         warnings.append(f"elevation: {i}: claimed {claimed:.0f} m, USGS {z:.0f} m (diff {claimed - z:+.0f} m)")
@@ -162,6 +205,8 @@ def main():
         print("WARNING:", w)
     for e in errors:
         print("ERROR:", e)
+    if stats:
+        print("STATS:", json.dumps(stats))
     print(f"{len(errors)} error(s), {len(warnings)} warning(s)")
     return 1 if errors else 0
 

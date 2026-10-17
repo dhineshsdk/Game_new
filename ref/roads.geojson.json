@@ -1,0 +1,382 @@
+{
+  "type": "FeatureCollection",
+  "name": "mono_basin_roads",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "US Highway 395",
+        "ref": "US 395",
+        "osm_way_ids": [10891423, 28475102, 51209844, 152849102, 152849105, 398102411, 610294812],
+        "surface": "asphalt",
+        "lanes": 2,
+        "width_m": 11.6,
+        "shoulder_m": 2.4,
+        "speed_limit_mph": 65,
+        "guardrail": "partial",
+        "centre_line": "passing",
+        "seasonal_closure": null,
+        "source": "OpenStreetMap ODbL / Caltrans TSN Postmiles Mono 46.0 to 70.1"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-119.10215, 37.89000],
+          [-119.10682, 37.91240],
+          [-119.11125, 37.93185],
+          [-119.11358, 37.94382],
+          [-119.11742, 37.95410],
+          [-119.11920, 37.95758],
+          [-119.12285, 37.96340],
+          [-119.13890, 37.97720],
+          [-119.14620, 37.99180],
+          [-119.14310, 38.01150],
+          [-119.14585, 38.02685],
+          [-119.15240, 38.04190],
+          [-119.17210, 38.06280],
+          [-119.17855, 38.07540],
+          [-119.17952, 38.08585],
+          [-119.18620, 38.10540],
+          [-119.19328, 38.12432],
+          [-119.20540, 38.15120],
+          [-119.21890, 38.18240],
+          [-119.23110, 38.21500]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tioga Pass Road (State Route 120 West)",
+        "ref": "SR 120",
+        "osm_way_ids": [10890112, 49281744, 152831904, 229184710, 412098312],
+        "surface": "asphalt",
+        "lanes": 2,
+        "width_m": 7.3,
+        "shoulder_m": 0.6,
+        "speed_limit_mph": 55,
+        "guardrail": "partial",
+        "centre_line": "double_yellow",
+        "seasonal_closure": "Closed Nov-May from Gate 1 (Lower Lee Vining Canyon PM 3.5) to Yosemite Entrance (PM 0.0)",
+        "source": "OpenStreetMap ODbL / Caltrans District 9 MON-120 R0.00 to R12.06"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-119.11358, 37.94382],
+          [-119.12640, 37.94120],
+          [-119.14180, 37.93780],
+          [-119.15890, 37.93410],
+          [-119.17650, 37.93490],
+          [-119.19240, 37.93850],
+          [-119.20580, 37.93980],
+          [-119.21620, 37.93640],
+          [-119.22410, 37.93720],
+          [-119.23450, 37.93890],
+          [-119.24380, 37.94820],
+          [-119.24710, 37.93610],
+          [-119.25120, 37.92380],
+          [-119.25792, 37.91075]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pole Line Road (State Route 167)",
+        "ref": "SR 167",
+        "osm_way_ids": [10890455, 198274102],
+        "surface": "asphalt",
+        "lanes": 2,
+        "width_m": 8.5,
+        "shoulder_m": 1.2,
+        "speed_limit_mph": 65,
+        "guardrail": "none",
+        "centre_line": "passing",
+        "seasonal_closure": null,
+        "source": "OpenStreetMap ODbL / Caltrans District 9 MON-167 PM 0.00 to 10.5"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-119.15240, 38.04190],
+          [-119.11850, 38.05420],
+          [-119.08120, 38.06710],
+          [-119.03540, 38.07980],
+          [-118.99120, 38.09150],
+          [-118.96000, 38.10020]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bodie Road — Paved Section (State Route 270)",
+        "ref": "SR 270",
+        "osm_way_ids": [10892104, 319028411],
+        "surface": "asphalt",
+        "lanes": 2,
+        "width_m": 7.3,
+        "shoulder_m": 0.5,
+        "speed_limit_mph": 55,
+        "guardrail": "none",
+        "centre_line": "double_yellow",
+        "seasonal_closure": "Closed during winter snow (typically Nov-April)",
+        "source": "OpenStreetMap ODbL / Caltrans District 9 MON-270 PM 0.00 to 9.805"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-119.19328, 38.12432],
+          [-119.17240, 38.12890],
+          [-119.15120, 38.13650],
+          [-119.12890, 38.14420],
+          [-119.10450, 38.15180],
+          [-119.08210, 38.16120],
+          [-119.06420, 38.17450],
+          [-119.05182, 38.18745]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bodie Road — Unpaved Section (Bodie Historic Park Road)",
+        "ref": "SR 270",
+        "osm_way_ids": [319028412, 319028415],
+        "surface": "gravel",
+        "lanes": 2,
+        "width_m": 6.2,
+        "shoulder_m": 0.0,
+        "speed_limit_mph": 25,
+        "guardrail": "none",
+        "centre_line": "none",
+        "seasonal_closure": "Closed Nov-May (snowmobile/ski access only)",
+        "source": "OpenStreetMap ODbL / Mono County & California State Parks (4.8 km corrugated gravel)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-119.05182, 38.18745],
+          [-119.04120, 38.19480],
+          [-119.02980, 38.20150],
+          [-119.01950, 38.20840],
+          [-119.01495, 38.21112]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lundy Lake Road (Paved Lower & Canyon Section)",
+        "ref": "CR 301",
+        "osm_way_ids": [10889412, 241098231],
+        "surface": "asphalt",
+        "lanes": 2,
+        "width_m": 6.7,
+        "shoulder_m": 0.3,
+        "speed_limit_mph": 45,
+        "guardrail": "none",
+        "centre_line": "double_yellow",
+        "seasonal_closure": "Upper canyon unplowed Dec-April beyond Lundy Lake Resort",
+        "source": "OpenStreetMap ODbL / Mono County Public Works"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-119.14585, 38.02685],
+          [-119.16820, 38.02710],
+          [-119.19150, 38.02980],
+          [-119.21480, 38.03150],
+          [-119.23120, 38.03010]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lundy Canyon Trailhead Road (Unpaved Upper Section)",
+        "ref": "FS 2N01",
+        "osm_way_ids": [241098232],
+        "surface": "gravel",
+        "lanes": 1,
+        "width_m": 4.2,
+        "shoulder_m": 0.0,
+        "speed_limit_mph": 15,
+        "guardrail": "none",
+        "centre_line": "none",
+        "seasonal_closure": "Closed Nov-May",
+        "source": "OpenStreetMap ODbL / Inyo National Forest MVUM"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-119.23120, 38.03010],
+          [-119.24510, 38.02780],
+          [-119.25680, 38.02640]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Test Station Road",
+        "ref": "FS 1N14",
+        "osm_way_ids": [10888920, 10888921],
+        "surface": "dirt",
+        "lanes": 1,
+        "width_m": 4.5,
+        "shoulder_m": 0.0,
+        "speed_limit_mph": 25,
+        "guardrail": "none",
+        "centre_line": "none",
+        "seasonal_closure": null,
+        "source": "OpenStreetMap ODbL / Inyo NF MVUM"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-119.10682, 37.91240],
+          [-119.08420, 37.92150],
+          [-119.05890, 37.93120],
+          [-119.02650, 37.93850],
+          [-118.99120, 37.94120],
+          [-118.96000, 37.94380]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Picnic Grounds Road (Cemetery Road / Old Marina Access)",
+        "ref": null,
+        "osm_way_ids": [10891045, 451928301],
+        "surface": "gravel",
+        "lanes": 2,
+        "width_m": 5.5,
+        "shoulder_m": 0.0,
+        "speed_limit_mph": 25,
+        "guardrail": "none",
+        "centre_line": "none",
+        "seasonal_closure": null,
+        "source": "OpenStreetMap ODbL / Mono County Roads"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-119.13890, 37.97720],
+          [-119.13620, 37.98850],
+          [-119.14150, 38.00120],
+          [-119.14310, 38.01150]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Poole Power Plant Road (Lee Vining Creek Road)",
+        "ref": "FS 1N04",
+        "osm_way_ids": [10887612, 289104512],
+        "surface": "asphalt",
+        "lanes": 2,
+        "width_m": 6.1,
+        "shoulder_m": 0.2,
+        "speed_limit_mph": 35,
+        "guardrail": "none",
+        "centre_line": "none",
+        "seasonal_closure": "Closed in winter beyond Aspen Grove Campground",
+        "source": "OpenStreetMap ODbL / Inyo NF MVUM"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-119.15890, 37.93410],
+          [-119.17420, 37.94120],
+          [-119.19350, 37.94580],
+          [-119.21120, 37.94690]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mattly Avenue (Lee Vining West Bench Street)",
+        "ref": null,
+        "osm_way_ids": [10890811],
+        "surface": "asphalt",
+        "lanes": 2,
+        "width_m": 7.0,
+        "shoulder_m": 1.0,
+        "speed_limit_mph": 25,
+        "guardrail": "none",
+        "centre_line": "none",
+        "seasonal_closure": null,
+        "source": "OpenStreetMap ODbL"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-119.11810, 37.95350],
+          [-119.12040, 37.95710],
+          [-119.12350, 37.96180]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lakeview Avenue (Lee Vining East Parallel Street)",
+        "ref": null,
+        "osm_way_ids": [10890814],
+        "surface": "asphalt",
+        "lanes": 2,
+        "width_m": 6.8,
+        "shoulder_m": 0.8,
+        "speed_limit_mph": 25,
+        "guardrail": "none",
+        "centre_line": "none",
+        "seasonal_closure": null,
+        "source": "OpenStreetMap ODbL"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-119.11650, 37.95390],
+          [-119.11820, 37.95790],
+          [-119.12110, 37.96220]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Third Street (Lee Vining Cross Street)",
+        "ref": null,
+        "osm_way_ids": [10890822],
+        "surface": "asphalt",
+        "lanes": 2,
+        "width_m": 7.2,
+        "shoulder_m": 0.5,
+        "speed_limit_mph": 25,
+        "guardrail": "none",
+        "centre_line": "none",
+        "seasonal_closure": null,
+        "source": "OpenStreetMap ODbL"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-119.12040, 37.95710],
+          [-119.11920, 37.95758],
+          [-119.11820, 37.95790]
+        ]
+      }
+    }
+  ]
+}
