@@ -1,7 +1,7 @@
 # CLAUDE.md — Codex Repository Operating Laws & Agent Entrypoint
 
 **Project Codename:** CODEX (Public title TBD prior to release)
-**Engine:** Unreal Engine 5.4 / 5.5 (Strict C++ Core)
+**Engine:** Unreal Engine 5.8.3 (Strict C++ Core; pinned by `docs/adr/0003-pin-unreal-engine-5-8.md`)
 **DCC & GIS Pipeline:** Headless Blender (Python / OpenUSD) + USGS 3DEP / Copernicus DEM + OSM
 **Philosophy:** Grounded Realism, Mechanical Honesty, Real-Time Distance, Bittersweet Warmth
 

@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "Physics/Experimental/PhysScene_Chaos.h"
 #include "Chaos/SimCallbackObject.h"
+#include "PhysicsProxy/SingleParticlePhysicsProxy.h"
 #include "Chaos/Particle/ParticleUtilities.h"
 
 /**
@@ -50,7 +51,9 @@ protected:
 		// Physics Thread (PT) ONLY access via GetPhysicsThreadAPI()
 		if (Chaos::FRigidBodyHandle_Internal* Handle = CachedInput.ChassisActor->GetPhysicsThreadAPI())
 		{
-			const Chaos::FVec3 WorldCoM = Chaos::FParticleUtilitiesGT::GetCoMWorldPosition(Handle);
+			// FRigidBodyHandle_Internal exposes X/R (not P/Q), so the PQ-based FParticleUtilities
+			// helpers do not compile against it in 5.8. World CoM = X + R * local CoM offset.
+			const Chaos::FVec3 WorldCoM = Handle->GetX() + Handle->GetR().RotateVector(Handle->CenterOfMass());
 			
 			// Vehicle dynamics forces are computed in SI units (Newtons),
 			// then converted to Chaos force units (kg*cm/s^2) by multiplying by 100.0f:

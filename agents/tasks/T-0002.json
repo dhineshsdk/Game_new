@@ -29,5 +29,5 @@
     "Clean UnrealBuildTool build of the Editor and Game targets with zero warnings (NOT YET RUN: toolchain and engine are not installed)."
   ],
   "strike_count": 0,
-  "status": "PENDING_BUILD_VERIFICATION"
+  "status": "COMPLETED"
 }

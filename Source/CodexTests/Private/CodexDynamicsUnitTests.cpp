@@ -5,7 +5,7 @@
 
 #if WITH_DEV_AUTOMATION_TESTS
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FCodexVehicleBaselineParametersTest, "Codex.Physics.BaselineParameters", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FCodexVehicleBaselineParametersTest, "Codex.Physics.BaselineParameters", EAutomationTestFlags_ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FCodexVehicleBaselineParametersTest::RunTest(const FString& Parameters)
 {
@@ -34,7 +34,7 @@ bool FCodexVehicleBaselineParametersTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FCodexVehicleStateStructSerializationTest, "Codex.Physics.StateSerialization", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FCodexVehicleStateStructSerializationTest, "Codex.Physics.StateSerialization", EAutomationTestFlags_ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FCodexVehicleStateStructSerializationTest::RunTest(const FString& Parameters)
 {

@@ -1,0 +1,56 @@
+{
+  "task_id": "T-0101",
+  "title": "Pure C++ Pacejka MF94 tyre model: load-sensitive pure slip, combined slip with friction-circle bound, and lateral relaxation",
+  "phase": "Phase 2 - Dynamics Core",
+  "tier": "Tier 1",
+  "owner_agent": "Claude Sonnet 5.5",
+  "reviewer_agent": "Claude Opus 5.5",
+  "target_module": "CodexVehicleDynamics",
+  "reference_docs": [
+    "CLAUDE.md",
+    "docs/adr/0005-dynamics-module-purity.md",
+    "docs/adr/0003-pin-unreal-engine-5-8.md",
+    "docs/TECHNICAL_PHYSICS_AND_GIS_SPEC.md",
+    "docs/build_strategy.md"
+  ],
+  "files_to_create_or_modify": [
+    "Source/CodexVehicleDynamics/Public/CodexTireModel.h",
+    "Source/CodexVehicleDynamics/Private/CodexTireModel.cpp",
+    "Tests/Headless/Dynamics/TireModelTests.cpp",
+    "tools/reference/pacejka_mf94_reference.py",
+    "Tests/Headless/Dynamics/golden/pacejka_mf94_reference.csv"
+  ],
+  "forbidden_dependencies": [
+    "Engine",
+    "CoreUObject",
+    "Chaos",
+    "PhysicsCore",
+    "ChaosVehicles",
+    "UnrealEd"
+  ],
+  "acceptance_criteria": [
+    "PRECONDITION: T-0005 (CodexCore purity and math), T-0006 (headless harness) and T-0007 (dynamics module migration) are COMPLETED per ADR 0005. Do not start before; status stays QUEUED until then.",
+    "SCOPE: tyre force math only. Inputs are slip angle alpha (rad), slip ratio kappa (dimensionless), vertical load Fz (N), longitudinal speed Vx (m/s) and dt (s). Computing slips from wheel and body velocities, wheel spin dynamics, and the vehicle-level sign convention belong to T-0201. Sign convention here: Fy has the sign of alpha and Fx has the sign of kappa, as in the spec formula.",
+    "API (namespace Codex::Dynamics, all double precision, all types trivially copyable with a static_assert): FTireSurfaceCoeffs { Mu, By, Cy, Ey, Bx, Cx, Ex }; FTireParams { Fz0N = 3200.0, PDy2 = -0.144, RelaxationLengthYM = 0.55, MinRelaxationSpeedMps = 1.5 }; FTirePeakSlips { AlphaPeakRad, KappaPeak }; FTireForces { FxN, FyN }; free functions LoadScaledPeakForce(FzN, Params, Surface), PureLateralForce(AlphaRad, FzN, Params, Surface), PureLongitudinalForce(Kappa, FzN, Params, Surface), ComputePeakSlips(Surface), CombinedForces(Kappa, AlphaRad, FzN, Params, Surface, PeakSlips), StepLateralRelaxation(FyPrevN, FySteadyN, VxMps, DtS, Params). Stateless and pure; no globals, no statics with mutable state, no allocation.",
+    "PURITY: CodexTireModel.h/.cpp include only standard headers and Codex*.h headers; no CoreMinimal.h, no UE types or macros, no USTRUCT/UPROPERTY, no exceptions or RTTI. tools/check_purity.ps1 exits 0.",
+    "DATA-DRIVEN: CodexTireModel.cpp contains no surface coefficients or tuning literals (only math constants such as pi). The four spec surfaces exist only in the test file and the golden CSV. Defaults in FTireParams are allowed only for the four fields above and carry a comment citing spec section 2.2.",
+    "BUILD: UnrealBuildTool builds CodexEditor Win64 Development with zero errors and zero warnings; tools/test_headless.ps1 builds and runs TireModelTests.cpp with zero warnings (/W4 /WX /fp:precise) and exits 0.",
+    "ORACLE: tools/reference/pacejka_mf94_reference.py (Python 3.12 standard library only, run with python -I) implements the spec section 2 formulas independently and writes the golden CSV (Fz in {0, 800, 1600, 2997, 3200, 3379.5, 6400, 9000} N; alpha in [-0.6, 0.6] rad step 0.01; kappa in [-1, 1] step 0.02; four surfaces; plus the relaxation sequences below). TireModelTests.cpp reads the CSV and every C++ value matches within max(1e-6 relative, 1e-6 N). If the script disagrees with any hand value in these criteria beyond its stated tolerance, STOP and escalate to the reviewer; do not adjust either side to agree.",
+    "LOAD SENSITIVITY (dry, Mu = 1.00): LoadScaledPeakForce = Fz * Mu * (1 + PDy2 * (Fz - Fz0) / Fz0) gives 3200.0 N at Fz = 3200 N; 1715.2 N at 1600 N; 5478.4 N at 6400 N; 3352.20 N at 3379.5 N (static front wheel); 3024.38 N at 2997.0 N (static rear wheel); each within 0.01 N. Wet, gravel, ice at Fz = 3200 N give 2400.0, 1600.0, 640.0 N within 0.01 N. Fz <= 0 returns exactly 0. Result is clamped to >= 0 (it would go negative above 25422 N); Fz = 30000 N returns 0 and no NaN.",
+    "PURE LATERAL, cornering stiffness: central difference (Fy(+1e-5) - Fy(-1e-5)) / 2e-5 at Fz = 3200 N equals B*C*D within 0.1%: dry (B 10.00, C 1.30, E -1.00) 41600 N/rad; wet (10.25, 1.30, -1.40) 31980 N/rad; gravel (8.50, 1.25, -0.30) 17000 N/rad; ice (9.00, 1.20, -2.00) 6912 N/rad. At Fz = 6400 N dry the slope is 10 * 1.3 * 5478.4 = 71219.2 N/rad within 0.1% (only D scales with load; B, C, E constant, see ADR 0005 item 7).",
+    "PURE LATERAL, peak: for each surface at Fz = 3200 N the maximum of |Fy| over alpha in [0, 0.6] rad sampled at 1e-4 rad equals D within 0.05% and never exceeds D by more than 1e-9 relative. Dry peak slip angle from ComputePeakSlips is 0.18568 rad +/- 0.0005 (hand-computed: solve B*alpha - E*(B*alpha - atan(B*alpha)) = tan(pi / (2C)) = 2.63676). ComputePeakSlips uses a fixed iteration count (deterministic) and is called once per surface, not per step.",
+    "PURE LATERAL, golden point: dry, Fz = 3200 N, alpha = 0.05 rad gives Fy = 1911.0 N +/- 0.5% (hand-computed by the ADR author; the oracle CSV value is authoritative to 1e-6).",
+    "PURE LATERAL, symmetry and range: Fy(-alpha) = -Fy(alpha) within 1e-9 relative; for alpha in [-pi/2, pi/2] and every surface and Fz in the CSV set, |Fy| <= D(Fz) * (1 + 1e-9) and the result is finite.",
+    "PURE LONGITUDINAL: same magic formula with Bx, Cx, Ex and the shared Mu, so D is identical for Fx and Fy. Tests set Bx = By, Cx = Cy, Ex = Ey (the spec gives no longitudinal coefficients; ADR 0005 item 5) and check Fx0(k) equals Fy0(k) for the same numeric argument within 1e-12 relative, plus the peak <= D bound. Real longitudinal values are a later data change, not a code change.",
+    "COMBINED SLIP (spec 2.2 item 3): with sx = kappa / KappaPeak, sy = alpha / AlphaPeakRad, rho = sqrt(sx^2 + sy^2): Fx = (sx / rho) * Fx0(rho * KappaPeak), Fy = (sy / rho) * Fy0(rho * AlphaPeakRad). If rho < 1e-12 both forces are exactly 0 (no division by zero). With kappa = 0, Fy equals PureLateralForce within 1e-9 relative and Fx is exactly 0; with alpha = 0, Fx equals PureLongitudinalForce within 1e-9 relative and Fy is exactly 0.",
+    "FRICTION-CIRCLE BOUND: over the full grid kappa in [-1, 1] step 0.01, alpha in [-0.6, 0.6] rad step 0.005, Fz in the CSV set, all four surfaces: sqrt(Fx^2 + Fy^2) <= D(Fz) * (1 + 1e-6), every value finite, sign(Fx) = sign(kappa) and sign(Fy) = sign(alpha) wherever the force is non-zero.",
+    "COMBINED REDUCES PURE: at (alpha = AlphaPeakRad / 2, kappa = KappaPeak), Fz = 3200 N, every surface: |Fy combined| < |Fy0(AlphaPeakRad / 2)| and |Fx combined| < |Fx0(KappaPeak)|. Do not test monotonic decrease in between: the ice row is super-linear near zero slip (ADR 0005 item 4).",
+    "RELAXATION (spec 2.2 item 2): StepLateralRelaxation uses the exact exponential update Fy_next = Fss + (Fy_prev - Fss) * exp(-max(|Vx|, MinRelaxationSpeedMps) * dt / RelaxationLengthYM); explicit Euler is not allowed. With Fy_prev = 0, Fss = 3200 N, dt = 1.0/120.0, sigma = 0.55 m: Vx = 0 gives 71.91 N after 1 step (+/- 0.01 N) and 2990.73 N after 120 steps (+/- 0.05 N); Vx = 0.5 m/s gives results bitwise equal to Vx = 0 (clamp active); Vx = 20 m/s gives 836.55 N after 1 step (+/- 0.01 N); Vx = -20 m/s is bitwise equal to Vx = +20 m/s.",
+    "RELAXATION stability: for Vx in {0, 1.5, 20, 60, 200} m/s and dt in {1/240, 1/120, 1/60, 0.05} s, 1000 steps toward a fixed target never overshoot (|Fy_next - Fss| <= |Fy_prev - Fss| and the sign of (Fy - Fss) never flips) and every value is finite. dt <= 0 returns Fy_prev unchanged.",
+    "DETERMINISM: 1,000,000 calls of CombinedForces with inputs from a fixed-seed 64-bit LCG over the CSV ranges produce no NaN or Inf, and two passes produce bitwise-identical outputs (compared by an FNV-1a hash of the raw doubles printed by the test).",
+    "OPEN ITEMS (do not resolve in this task, do not change spec numbers): damping-ratio mismatch, ride-frequency gap, ice-row curvature, missing longitudinal coefficients and per-surface relaxation length are recorded in ADR 0005 section 'Spec inconsistencies found'. The reviewer confirms none of these were silently changed.",
+    "DIRECTOR CHECKS: none in this task. Tyre feel is judged at the P3 feel gate with the in-engine car; no machine test here claims feel."
+  ],
+  "strike_count": 0,
+  "status": "QUEUED"
+}

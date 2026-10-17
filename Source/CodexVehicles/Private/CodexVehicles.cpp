@@ -1,4 +1,5 @@
 #include "CodexVehicles.h"
+#include "CodexVehicleAsyncCallback.h" // compiled here so the Chaos callback is checked on every build
 
 DEFINE_LOG_CATEGORY(LogCodexVehicles);
 

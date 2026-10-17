@@ -1,0 +1,29 @@
+{
+  "task_id": "T-0003",
+  "title": "Pin Unreal Engine 5.8.3 and achieve the first clean CodexEditor Win64 Development build",
+  "phase": "Phase 0 - Foundation",
+  "tier": "Tier 1",
+  "owner_agent": "Claude Sonnet 5.5",
+  "reviewer_agent": "Claude Opus 5.5",
+  "target_module": "All",
+  "reference_docs": [
+    "CLAUDE.md",
+    "docs/adr/0003-pin-unreal-engine-5-8.md",
+    "docs/build_strategy.md"
+  ],
+  "files_to_create_or_modify": [
+    "Codex.uproject",
+    "docs/adr/0003-pin-unreal-engine-5-8.md",
+    "Source/**"
+  ],
+  "forbidden_dependencies": [
+    "ChaosVehicles"
+  ],
+  "acceptance_criteria": [
+    "Codex.uproject EngineAssociation is 5.8.",
+    "UnrealBuildTool builds the CodexEditor target for Win64 Development with zero errors and zero warnings.",
+    "Every Chaos symbol used in CodexVehicleAsyncCallback.h is confirmed to exist in the 5.8 engine headers, or the header is corrected."
+  ],
+  "strike_count": 0,
+  "status": "COMPLETED"
+}

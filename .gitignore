@@ -47,3 +47,6 @@ desktop.ini
 
 # Task logs and scratch
 /agents/tasks/*.log
+
+# Local Claude Code settings and editor-generated engine config with a device token
+.claude/settings.local.json

@@ -1,9 +1,9 @@
 # CODEX — Project State & Multi-Agent Handoff Ledger
 
-**Last Updated:** 2026-10-15  
+**Last Updated:** 2026-10-17  
 **Current Execution Tier:** TIER 1 (Mono Basin Vertical Slice)  
-**Current Phase:** Phase 0 (Foundation & Module Skeleton) -> Moving to Phase 1/2  
-**Build Status:** INITIALIZED (UE5 Project Skeleton, Modules, Git & LFS Ready)
+**Current Phase:** Phase 0 (Foundation & Module Skeleton) complete -> ADR 0005 decision, then Phase 2  
+**Build Status:** GREEN (UE 5.8.3, CodexEditor Win64 Development, 0 errors / 0 warnings; 2/2 Codex automation tests pass)
 
 ---
 
@@ -12,8 +12,11 @@
 | Task ID | Status | Assigned Agent | Module | Summary |
 | :--- | :--- | :--- | :--- | :--- |
 | `T-0001` | **COMPLETED** | Claude Sonnet 5.5 / Antigravity | `All` | Initialized UE 5.4/5.5 `.uproject`, Target.cs, `.Build.cs` & C++ module skeletons (`CodexCore`, `CodexVehicleDynamics`, `CodexVehicles`, `CodexTests`). |
-| `T-0002` | **PENDING_BUILD_VERIFICATION** | Claude Sonnet 5.5 | `All` | Added stub modules (`CodexWorld`, `CodexTraffic`, `CodexPhoto`, `CodexAudio`, `CodexGameplay`, `CodexUI`, `CodexEditor`) so `Codex.uproject` and both Target files resolve. Files written but not compiled: no Visual Studio, no installed engine. T-0001 is also unbuilt. |
-| `T-0101` | **READY** | Claude Sonnet 5.5 | `CodexVehicleDynamics` | Implement pure C++ Pacejka MF94 tire model (`CodexTireModel.h/.cpp`) with combined slip and relaxation length. |
+| `T-0002` | **COMPLETED** | Claude Sonnet 5.5 | `All` | Added stub modules (`CodexWorld`, `CodexTraffic`, `CodexPhoto`, `CodexAudio`, `CodexGameplay`, `CodexUI`, `CodexEditor`). Verified by the T-0003 build on 2026-10-17. |
+| `T-0003` | **COMPLETED** | Claude Opus 5.5 | `All` | UE 5.8.3 pinned. `CodexEditor` Win64 Development builds with 0 errors, 0 warnings (2026-10-17). `CodexVehicleAsyncCallback.h` now computes world CoM from `GetX()/GetR()/CenterOfMass()` because `FRigidBodyHandle_Internal` has no `GetP/GetQ` in 5.8. Automation tests `Codex.Physics.BaselineParameters` and `Codex.Physics.StateSerialization` pass. |
+| `T-0004` | **IN_PROGRESS** | Claude Opus 5.5 | `CodexEditor` | Editor bridge. Verified: Blender runner, UE Python runner, Epic MCP server loaded natively in Claude Code, Blender Lab MCP add-on on port 9876. Pending: viewport capture and log read through MCP. |
+| `T-0005`..`T-0007` | **PROPOSED** | Claude Sonnet 5.5 | `CodexCore`, `CodexVehicleDynamics` | Purity, headless harness and dynamics migration per ADR 0005 (status: proposed, awaiting director approval). Task files not yet written. |
+| `T-0101` | **QUEUED** | Claude Sonnet 5.5 | `CodexVehicleDynamics` | Pure C++ Pacejka MF94 tyre model. Blocked on T-0005..T-0007 (see `agents/tasks/T-0101.json`). |
 | `T-0102` | **QUEUED** | Gemini 3.1 Pro | `CodexEditor` | Write Python script to fetch USGS 3DEP 1m DEM for Mono Basin (`EPSG:6340`) and convert to 16-bit PNG heightmap (`Scale.Z = 400.396735`). |
 | `T-0201` | **QUEUED** | Claude Sonnet 5.5 | `CodexVehicleDynamics` | Implement pure C++ 120 Hz solver (`FCodexVehicleSimulationState`) and headless unit tests (`CodexTests`) verifying static axle loads ($6759\text{ N}$ F / $5994\text{ N}$ R) and steady-state lateral G. |
 
