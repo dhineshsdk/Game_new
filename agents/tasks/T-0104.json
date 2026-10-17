@@ -1,0 +1,36 @@
+{
+  "task_id": "T-0104",
+  "title": "Mono Basin roads: ordered, connected centrelines from OpenStreetMap by way ID, with ODbL attribution",
+  "phase": "Phase 5 - Mono Basin corridor (moved ahead by ADR 0006)",
+  "tier": "Tier 1",
+  "owner_agent": "Claude Opus 5.5",
+  "reviewer_agent": "Claude Opus 5.5",
+  "target_module": "tools/world (offline pipeline, Python)",
+  "reference_docs": [
+    "CLAUDE.md",
+    "docs/adr/0006-world-first-build-order.md",
+    "docs/research/R-0002-validation.md",
+    "data/reference/roads.geojson"
+  ],
+  "files_to_create_or_modify": [
+    "tools/world/fetch_osm_roads.py",
+    "tools/world/road_graph.py",
+    "tools/world/tests/test_road_graph.py",
+    "data/manifests/osm_roads.json",
+    "docs/ATTRIBUTION.md"
+  ],
+  "forbidden_dependencies": [
+    "Geometry from data/reference/roads.geojson (validated as non-continuous)",
+    "Geometry from Google Maps or Street View"
+  ],
+  "acceptance_criteria": [
+    "FETCH: fetch_osm_roads.py asks Overpass for the way IDs in data/reference/roads.geojson plus the named roads in the world box, records the query, the response timestamp and the OSM data timestamp in the manifest, and caches the raw response under data/raw/ (gitignored). Way IDs that OSM no longer has are listed, not hidden.",
+    "CHECK TAGS: for every road, the OSM highway, ref, name and surface tags are compared with the surface, ref and speed in roads.geojson; every disagreement is reported in the manifest.",
+    "ORDER: road_graph.py joins ways into ordered, connected centrelines per named road (shared end nodes, correct direction, split at junctions). Every output line has no gap over 200 m between consecutive points; end-to-end distance is within 5 % of line length for roads that do not loop.",
+    "TESTS: python -m unittest tests pass using small synthetic way sets (reversed ways, shuffled order, a T junction, a gap, a loop).",
+    "ATTRIBUTION: docs/ATTRIBUTION.md carries the OpenStreetMap and USGS credit lines and the ODbL note from R-0002 section 8, reviewed against the licence text; the share-alike question for the shipped game is flagged for the director.",
+    "REAL RUN: SR 120 from US-395 to the Yosemite entrance reads as one line of about 13 to 20 km ending near Tioga Pass; US-395 spans the box north to south; SR 270 reaches Bodie."
+  ],
+  "strike_count": 0,
+  "status": "QUEUED"
+}

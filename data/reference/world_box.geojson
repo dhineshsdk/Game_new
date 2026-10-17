@@ -1,0 +1,393 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mono Basin World Box",
+        "kind": "box",
+        "source": "Codex Project Specification P-0002",
+        "notes": "Playable area bounding box: West -119.27000, East -118.96000, South 37.89000, North 38.21500 (~27.2 km E-W x 36.1 km N-S, 982 km2)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -119.27,
+              37.89
+            ],
+            [
+              -118.96,
+              37.89
+            ],
+            [
+              -118.96,
+              38.215
+            ],
+            [
+              -119.27,
+              38.215
+            ],
+            [
+              -119.27,
+              37.89
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lee Vining Town",
+        "kind": "area",
+        "source": "USGS 1:24,000 Quadrangle & Census CDP boundary",
+        "notes": "Town settlement footprint including US-395 commercial strip, residential streets 1st-6th, and USFS/Caltrans facilities"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -119.127,
+              37.953
+            ],
+            [
+              -119.117,
+              37.953
+            ],
+            [
+              -119.117,
+              37.963
+            ],
+            [
+              -119.127,
+              37.963
+            ],
+            [
+              -119.127,
+              37.953
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mono Lake Water Surface",
+        "kind": "water",
+        "source": "Mono Lake Committee & LADWP lake level monitoring (Oct 1 2026 elevation 6382.0 ft / 1945.2 m NAVD88)",
+        "notes": "Hypersaline lake surface boundary at 1945.2 m elevation, including Paoha and Negit volcanic islands"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -119.135,
+              37.975
+            ],
+            [
+              -119.12,
+              37.995
+            ],
+            [
+              -119.1,
+              38.02
+            ],
+            [
+              -119.06,
+              38.05
+            ],
+            [
+              -119.01,
+              38.055
+            ],
+            [
+              -118.97,
+              38.03
+            ],
+            [
+              -118.965,
+              37.99
+            ],
+            [
+              -118.975,
+              37.965
+            ],
+            [
+              -119.01,
+              37.945
+            ],
+            [
+              -119.05,
+              37.94
+            ],
+            [
+              -119.09,
+              37.945
+            ],
+            [
+              -119.125,
+              37.96
+            ],
+            [
+              -119.135,
+              37.975
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lee Vining Canyon",
+        "kind": "area",
+        "source": "USGS 3DEP 1m DEM & Inyo National Forest GIS",
+        "notes": "Steep glacial canyon carrying SR 120 and Lee Vining Creek from alluvial mouth to Ellery Lake"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -119.135,
+              37.935
+            ],
+            [
+              -119.165,
+              37.925
+            ],
+            [
+              -119.2,
+              37.93
+            ],
+            [
+              -119.245,
+              37.935
+            ],
+            [
+              -119.245,
+              37.945
+            ],
+            [
+              -119.215,
+              37.95
+            ],
+            [
+              -119.17,
+              37.942
+            ],
+            [
+              -119.135,
+              37.942
+            ],
+            [
+              -119.135,
+              37.935
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tioga Pass Area",
+        "kind": "area",
+        "source": "National Park Service (Yosemite NP) & Inyo National Forest",
+        "notes": "High subalpine pass plateau (3033 m), Ellery Lake, Tioga Lake, Mount Dana trailhead, and Yosemite entrance station"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -119.268,
+              37.905
+            ],
+            [
+              -119.245,
+              37.905
+            ],
+            [
+              -119.235,
+              37.925
+            ],
+            [
+              -119.235,
+              37.945
+            ],
+            [
+              -119.26,
+              37.945
+            ],
+            [
+              -119.268,
+              37.925
+            ],
+            [
+              -119.268,
+              37.905
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lundy Canyon",
+        "kind": "area",
+        "source": "USGS 1:24,000 Quadrangle (Lundy Quad)",
+        "notes": "Glacial trough along Mill Creek containing Lundy Lake, resort area, beaver ponds, and rugged metamorphic cirques"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -119.17,
+              38.04
+            ],
+            [
+              -119.21,
+              38.025
+            ],
+            [
+              -119.265,
+              38.02
+            ],
+            [
+              -119.265,
+              38.035
+            ],
+            [
+              -119.21,
+              38.045
+            ],
+            [
+              -119.17,
+              38.05
+            ],
+            [
+              -119.17,
+              38.04
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Conway Summit",
+        "kind": "area",
+        "source": "Caltrans District 9 Road Log",
+        "notes": "Highway mountain pass on US-395 over Bodie Hills ridge at 2475 m (8143 ft), including scenic overlook and maintenance yard"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -119.21,
+              38.07
+            ],
+            [
+              -119.175,
+              38.07
+            ],
+            [
+              -119.175,
+              38.1
+            ],
+            [
+              -119.21,
+              38.1
+            ],
+            [
+              -119.21,
+              38.07
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bodie Historic District",
+        "kind": "area",
+        "source": "California State Parks & National Register of Historic Places",
+        "notes": "State Historic Park ghost town basin in the Bodie Hills (2550 m), preserved in arrested decay"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -119.025,
+              38.2
+            ],
+            [
+              -118.995,
+              38.2
+            ],
+            [
+              -118.995,
+              38.215
+            ],
+            [
+              -119.025,
+              38.215
+            ],
+            [
+              -119.025,
+              38.2
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "June Lake Loop Extension (SR 158)",
+        "kind": "extension",
+        "source": "Caltrans District 9 & Codex Roadmap Tier 1 Extension",
+        "notes": "Future playable extension south of world box: June Lake, Gull Lake, Silver Lake, Grant Lake, Rush Creek canyon"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -119.16,
+              37.73
+            ],
+            [
+              -119.04,
+              37.73
+            ],
+            [
+              -119.04,
+              37.885
+            ],
+            [
+              -119.16,
+              37.885
+            ],
+            [
+              -119.16,
+              37.73
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

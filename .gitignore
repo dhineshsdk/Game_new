@@ -50,3 +50,8 @@ desktop.ini
 
 # Local Claude Code settings and editor-generated engine config with a device token
 .claude/settings.local.json
+
+# GIS data: reproducible by tools/world scripts; manifests and checksums are committed instead
+/data/raw/
+/data/derived/
+__pycache__/

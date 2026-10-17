@@ -1,0 +1,19 @@
+{
+  "_comment": "All geography for the terrain pipeline lives here (ADR 0006). Scripts read this file; they hold no coordinates.",
+  "world_box_wgs84": { "west": -119.27, "east": -118.96, "south": 37.89, "north": 38.215 },
+  "projected_crs": "EPSG:26911",
+  "vertical_datum": "NAVD88 metres",
+  "source": {
+    "tnm_dataset": "Digital Elevation Model (DEM) 1 meter",
+    "project": "CA_SierraNevada_B22",
+    "tnm_api": "https://tnmaccess.nationalmap.gov/api/v1/products"
+  },
+  "output": {
+    "vertex_spacing_m": 2.0,
+    "quads_per_section": 63,
+    "sections_per_component_axis": 2,
+    "z_margin_m": 20.0,
+    "tile_components": 8
+  },
+  "z_range_estimate_m": { "min": 1900.0, "max": 4000.0, "_note": "estimate only; build_heightmap.py measures the real range from the DEM" }
+}
