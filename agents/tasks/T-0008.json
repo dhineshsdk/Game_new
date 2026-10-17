@@ -1,0 +1,29 @@
+{
+  "task_id": "T-0008",
+  "title": "Versioned binary snapshot and FNV-1a hash of the vehicle simulation state",
+  "phase": "Phase 2 - Dynamics Core",
+  "tier": "Tier 1",
+  "owner_agent": "Claude Opus 5.5",
+  "reviewer_agent": "Claude Opus 5.5",
+  "target_module": "CodexVehicleDynamics",
+  "reference_docs": ["CLAUDE.md", "docs/adr/0005-dynamics-module-purity.md"],
+  "files_to_create_or_modify": [
+    "Source/CodexCore/Public/CodexHash.h (not yet written)",
+    "Source/CodexVehicleDynamics/Public/CodexStateSnapshot.h",
+    "Source/CodexVehicleDynamics/Private/CodexStateSnapshot.cpp",
+    "Tests/Headless/Dynamics/StateSnapshotTests.cpp",
+    "Tests/Headless/Core/HashTests.cpp",
+    "tools/check_purity.ps1"
+  ],
+  "forbidden_dependencies": ["Engine", "CoreUObject", "Chaos", "PhysicsCore", "ChaosVehicles", "UnrealEd"],
+  "acceptance_criteria": [
+    "ONE FIELD LIST: a single VisitStateFields template enumerates every field of FVehicleSimulationState in a fixed order; writer, reader and hasher all use it, so a new field cannot be serialized but left out of the hash.",
+    "FORMAT v1: header = magic 'CXSS' (u32 0x53535843), version u32 = 1, payload byte count u32; then each field little-endian (u32/i32 as 4 bytes, double as its 8-byte IEEE-754 bit pattern). Total 556 bytes. No memcpy of whole structs; padding never reaches the bytes or the hash.",
+    "API (no allocation, no exceptions): WriteSnapshot(State, OutBytes, Capacity) returns bytes written or 0 if Capacity is too small; ReadSnapshot(Bytes, Size, OutState) returns Ok, TooSmall, BadMagic, UnsupportedVersion or SizeMismatch and leaves OutState untouched on failure; HashState(State) returns FNV-1a 64 over exactly the bytes WriteSnapshot produces.",
+    "TESTS: FNV-1a 64 matches published vectors ('' and 'a', 'foobar'); round trip of a state with every field set to a distinct value is field-for-field and bitwise equal; every single-field change alters the hash; a state built in 0xAB-filled memory hashes equal to a normally constructed one; header bytes and size are as specified; each read error is detected; hash of the default state equals a pinned constant (a deliberate format change must update it and bump the version).",
+    "DETERMINISM: a fixed 72,000-step (10 minutes at 120 Hz) scripted run using the tyre model produces the same chained per-frame hash on two runs of the same binary.",
+    "BUILD: purity check passes, headless harness passes with /W4 /WX, UBT CodexEditor Win64 Development 0 errors 0 warnings."
+  ],
+  "strike_count": 0,
+  "status": "QUEUED"
+}

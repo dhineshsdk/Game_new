@@ -18,13 +18,15 @@ PDY2 = -0.144
 SIGMA_Y = 0.55
 MIN_RELAX_SPEED = 1.5
 
-# Spec section 2.1. Longitudinal coefficients are not in the spec (ADR 0005 item 5): the tests
-# set Bx = By, Cx = Cy, Ex = Ey.
+# (mu, By, Cy, Ey, Bx, Cx, Ex). Spec section 2.1 rows; the spec has no longitudinal coefficients
+# (ADR 0005 item 5), so those rows mirror lateral. "asym" is a test-only surface with distinct
+# longitudinal values so a kappa/alpha wiring mix-up in the C++ cannot match the golden data.
 SURFACES = {
-    "dry": (1.00, 10.00, 1.30, -1.00),
-    "wet": (0.75, 10.25, 1.30, -1.40),
-    "gravel": (0.50, 8.50, 1.25, -0.30),
-    "ice": (0.20, 9.00, 1.20, -2.00),
+    "dry": (1.00, 10.00, 1.30, -1.00, 10.00, 1.30, -1.00),
+    "wet": (0.75, 10.25, 1.30, -1.40, 10.25, 1.30, -1.40),
+    "gravel": (0.50, 8.50, 1.25, -0.30, 8.50, 1.25, -0.30),
+    "ice": (0.20, 9.00, 1.20, -2.00, 9.00, 1.20, -2.00),
+    "asym": (1.00, 10.00, 1.30, -1.00, 12.00, 1.65, 0.30),
 }
 FZ_SET = [0.0, 800.0, 1600.0, 2997.0, 3200.0, 3379.5, 6400.0, 9000.0]
 
@@ -55,15 +57,15 @@ def peak_slip(b, c, e):
     return u / b
 
 
-def combined(kappa, alpha, fz, mu, b, c, e, kp, ap):
+def combined(kappa, alpha, fz, mu, lat, lon, kp, ap):
     sx = kappa / kp
     sy = alpha / ap
     rho = math.hypot(sx, sy)
     if rho < 1e-12:
         return 0.0, 0.0
     d = peak_force(fz, mu)
-    fx0 = magic(rho * kp, d, b, c, e)
-    fy0 = magic(rho * ap, d, b, c, e)
+    fx0 = magic(rho * kp, d, *lon)
+    fy0 = magic(rho * ap, d, *lat)
     return (sx / rho) * fx0, (sy / rho) * fy0
 
 
@@ -78,23 +80,25 @@ def main():
     out = os.path.join(root, "Tests", "Headless", "Dynamics", "golden", "pacejka_mf94_reference.csv")
     rows = []
 
-    for name, (mu, b, c, e) in SURFACES.items():
-        ap = peak_slip(b, c, e)
-        rows.append(f"peak,{name},0,0,0,{ap!r},{ap!r}")
+    for name, (mu, by, cy, ey, bx, cx, ex) in SURFACES.items():
+        lat, lon = (by, cy, ey), (bx, cx, ex)
+        ap = peak_slip(*lat)
+        kp = peak_slip(*lon)
+        rows.append(f"peak,{name},0,0,0,{ap!r},{kp!r}")
         for fz in FZ_SET:
             d = peak_force(fz, mu)
             rows.append(f"D,{name},{fz!r},0,0,{d!r},0.0")
             for i in range(-60, 61):  # alpha in [-0.6, 0.6] step 0.01
                 alpha = i / 100.0
-                rows.append(f"fy,{name},{fz!r},{alpha!r},0,{magic(alpha, d, b, c, e)!r},0.0")
+                rows.append(f"fy,{name},{fz!r},{alpha!r},0,{magic(alpha, d, *lat)!r},0.0")
             for i in range(-50, 51):  # kappa in [-1, 1] step 0.02
                 kappa = i / 50.0
-                rows.append(f"fx,{name},{fz!r},0,{kappa!r},{magic(kappa, d, b, c, e)!r},0.0")
+                rows.append(f"fx,{name},{fz!r},0,{kappa!r},{magic(kappa, d, *lon)!r},0.0")
             for i in range(-10, 11):  # kappa step 0.1
                 kappa = i / 10.0
                 for j in range(-12, 13):  # alpha step 0.05
                     alpha = j / 20.0
-                    fx, fy = combined(kappa, alpha, fz, mu, b, c, e, ap, ap)
+                    fx, fy = combined(kappa, alpha, fz, mu, lat, lon, kp, ap)
                     rows.append(f"comb,{name},{fz!r},{alpha!r},{kappa!r},{fx!r},{fy!r}")
 
     # Relaxation sequences: Fy_prev = 0 toward 3200 N, dt = 1/120, 120 steps. Columns: vx in fz slot, step in kappa slot.
@@ -110,7 +114,7 @@ def main():
         f.write("\n")
 
     # Hand values from T-0101, checked here so a disagreement stops the task.
-    dry = SURFACES["dry"]
+    dry = SURFACES["dry"][:4]
     checks = [
         ("D(3200)", peak_force(3200.0, 1.0), 3200.0, 0.01),
         ("D(1600)", peak_force(1600.0, 1.0), 1715.2, 0.01),
@@ -132,6 +136,7 @@ def main():
         ok = abs(got - want) <= tol
         bad += 0 if ok else 1
         print(f"{'OK ' if ok else 'BAD'} {label}: {got:.6f} (hand {want} +/- {tol})")
+    print(f"asym kappa_peak {peak_slip(*SURFACES['asym'][4:]):.6f} vs alpha_peak {peak_slip(*SURFACES['asym'][1:4]):.6f}")
     print(f"wrote {len(rows)} rows to {out}")
     return 1 if bad else 0
 

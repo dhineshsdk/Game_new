@@ -29,20 +29,27 @@ namespace
 		FTireSurfaceCoeffs Coeffs;
 	};
 	constexpr FNamedSurface Surfaces[] = { { "dry", Dry }, { "wet", Wet }, { "gravel", Gravel }, { "ice", Ice } };
+
+	// Test-only surface with distinct longitudinal coefficients, so the golden data can tell the
+	// kappa path from the alpha path (independent review of T-0101, finding 1).
+	constexpr FTireSurfaceCoeffs Asym { 1.00, 10.00, 1.30, -1.00, 12.00, 1.65, 0.30 };
+	constexpr FNamedSurface AllSurfaces[] = { { "dry", Dry }, { "wet", Wet }, { "gravel", Gravel }, { "ice", Ice }, { "asym", Asym } };
+	constexpr int NumAllSurfaces = 5;
+	constexpr int GoldenRowCount = 30405;
 	constexpr double FzSet[] = { 0.0, 800.0, 1600.0, 2997.0, 3200.0, 3379.5, 6400.0, 9000.0 };
 
 	const FTireParams Params;
 
-	const FTireSurfaceCoeffs* FindSurface(const char* Name)
+	int FindSurfaceIndex(const char* Name)
 	{
-		for (const FNamedSurface& S : Surfaces)
+		for (int I = 0; I < NumAllSurfaces; ++I)
 		{
-			if (std::strcmp(S.Name, Name) == 0)
+			if (std::strcmp(AllSurfaces[I].Name, Name) == 0)
 			{
-				return &S.Coeffs;
+				return I;
 			}
 		}
-		return nullptr;
+		return -1;
 	}
 
 	bool GoldenMatch(double Actual, double Expected)
@@ -274,6 +281,12 @@ CODEX_TEST(Tire_GoldenCsv)
 		return;
 	}
 
+	FTirePeakSlips Peaks[NumAllSurfaces];
+	for (int I = 0; I < NumAllSurfaces; ++I)
+	{
+		Peaks[I] = ComputePeakSlips(AllSurfaces[I].Coeffs);
+	}
+
 	char Line[512];
 	int Rows = 0;
 	int Mismatches = 0;
@@ -287,6 +300,7 @@ CODEX_TEST(Tire_GoldenCsv)
 		double A = 0.0, Alpha = 0.0, K = 0.0, V1 = 0.0, V2 = 0.0;
 		if (sscanf_s(Line, "%15[^,],%15[^,],%lf,%lf,%lf,%lf,%lf", Kind, 16u, Surface, 16u, &A, &Alpha, &K, &V1, &V2) != 7)
 		{
+			++Mismatches; // an unreadable row must fail, not be skipped
 			continue;
 		}
 		++Rows;
@@ -308,13 +322,14 @@ CODEX_TEST(Tire_GoldenCsv)
 		}
 		else
 		{
-			const FTireSurfaceCoeffs* S = FindSurface(Surface);
-			if (!S)
+			const int SurfaceIndex = FindSurfaceIndex(Surface);
+			if (SurfaceIndex < 0)
 			{
 				++Mismatches;
 				continue;
 			}
-			const FTirePeakSlips Peak = ComputePeakSlips(*S);
+			const FTireSurfaceCoeffs* S = &AllSurfaces[SurfaceIndex].Coeffs;
+			const FTirePeakSlips& Peak = Peaks[SurfaceIndex];
 			if (std::strcmp(Kind, "peak") == 0)
 			{
 				bOk = GoldenMatch(Peak.AlphaPeakRad, V1) && GoldenMatch(Peak.KappaPeak, V2);
@@ -347,8 +362,99 @@ CODEX_TEST(Tire_GoldenCsv)
 		}
 	}
 	fclose(File);
-	CODEX_CHECK(Rows > 20000);
+	CODEX_CHECK(Rows == GoldenRowCount);
 	CODEX_CHECK(Mismatches == 0);
+}
+
+CODEX_TEST(Tire_AsymmetricLongitudinal)
+{
+	CODEX_CHECK(IsSupportedSurface(Asym));
+	const FTirePeakSlips Peak = ComputePeakSlips(Asym);
+	CODEX_CHECK(std::fabs(Peak.KappaPeak - Peak.AlphaPeakRad) > 0.01);
+	CODEX_CHECK_NEAR(Peak.AlphaPeakRad, ComputePeakSlips(Dry).AlphaPeakRad, 0.0);
+	// The longitudinal curve peaks at D exactly at its own peak slip.
+	CODEX_CHECK_NEAR(PureLongitudinalForce(Peak.KappaPeak, 3200.0, Params, Asym), 3200.0, 1e-6);
+	CODEX_CHECK(std::fabs(PureLongitudinalForce(0.05, 3200.0, Params, Asym) - PureLateralForce(0.05, 3200.0, Params, Asym)) > 1.0);
+	// Combined slip uses each axis's own peak: pure-axis inputs still reduce to the pure curves.
+	const FTireForces F = CombinedForces(Peak.KappaPeak, 0.0, 3200.0, Params, Asym, Peak);
+	CODEX_CHECK_NEAR(F.FxN, 3200.0, 1e-6);
+	CODEX_CHECK(F.FyN == 0.0);
+}
+
+CODEX_TEST(Tire_UnsupportedDataStaysBounded)
+{
+	// No finite peak: C = 1 (curve never turns over), and E = 1 with C = 2 (outside the supported range).
+	const FTireSurfaceCoeffs FlatC { 1.00, 10.00, 1.00, 0.00, 10.00, 1.00, 0.00 };
+	const FTireSurfaceCoeffs EOne { 1.00, 10.00, 2.00, 1.00, 10.00, 2.00, 1.00 };
+	const FTireSurfaceCoeffs NoLongPeak { 1.00, 10.00, 1.30, -1.00, 10.00, 1.00, 0.00 };
+	const FTireSurfaceCoeffs Cases[] = { FlatC, EOne, NoLongPeak };
+	CODEX_CHECK(IsSupportedSurface(Dry) && IsSupportedSurface(Ice));
+	for (const FTireSurfaceCoeffs& S : Cases)
+	{
+		CODEX_CHECK(!IsSupportedSurface(S));
+		const FTirePeakSlips Peak = ComputePeakSlips(S);
+		const double D = LoadScaledPeakForce(3200.0, Params, S);
+		for (int K = -50; K <= 50; ++K)
+		{
+			for (int A = -30; A <= 30; ++A)
+			{
+				const FTireForces F = CombinedForces(K / 50.0, A * 0.02, 3200.0, Params, S, Peak);
+				CODEX_CHECK(std::isfinite(F.FxN) && std::isfinite(F.FyN));
+				CODEX_CHECK(std::hypot(F.FxN, F.FyN) <= D * (1.0 + 1e-9));
+			}
+		}
+	}
+}
+
+CODEX_TEST(Tire_NonFiniteAndHugeSlips)
+{
+	const double Inf = std::numeric_limits<double>::infinity();
+	const double NaN = std::numeric_limits<double>::quiet_NaN();
+	const FTireSurfaceCoeffs PositiveE { 1.00, 10.00, 1.30, 0.50, 10.00, 1.30, 0.50 };
+	const FTireSurfaceCoeffs Tested[] = { Dry, Ice, Asym, PositiveE };
+	const double Slips[] = { 1e200, -1e200, Inf, -Inf, NaN, 1e6, -1e6 };
+	for (const FTireSurfaceCoeffs& S : Tested)
+	{
+		const FTirePeakSlips Peak = ComputePeakSlips(S);
+		const double D = LoadScaledPeakForce(3200.0, Params, S);
+		for (double X : Slips)
+		{
+			const double Fy = PureLateralForce(X, 3200.0, Params, S);
+			const double Fx = PureLongitudinalForce(X, 3200.0, Params, S);
+			CODEX_CHECK(std::isfinite(Fy) && std::isfinite(Fx));
+			CODEX_CHECK(std::fabs(Fy) <= D * (1.0 + 1e-9) && std::fabs(Fx) <= D * (1.0 + 1e-9));
+			const FTireForces Fk = CombinedForces(X, 0.0, 3200.0, Params, S, Peak);
+			const FTireForces Fa = CombinedForces(0.0, X, 3200.0, Params, S, Peak);
+			const FTireForces Fb = CombinedForces(X, X, 3200.0, Params, S, Peak);
+			CODEX_CHECK(std::isfinite(Fk.FxN) && std::isfinite(Fk.FyN) && std::isfinite(Fa.FxN) && std::isfinite(Fa.FyN));
+			CODEX_CHECK(std::isfinite(Fb.FxN) && std::isfinite(Fb.FyN));
+			CODEX_CHECK(std::hypot(Fb.FxN, Fb.FyN) <= D * (1.0 + 1e-9));
+			if (X == X)
+			{
+				// A huge slip is a saturated slip: the force keeps the slip's sign and is not zero.
+				CODEX_CHECK(SignOf(Fk.FxN) == SignOf(X) && SignOf(Fa.FyN) == SignOf(X));
+				CODEX_CHECK(std::fabs(Fk.FxN - PureLongitudinalForce(X, 3200.0, Params, S)) <= 1e-9 * D);
+			}
+			else
+			{
+				CODEX_CHECK(Fk.FxN == 0.0 && Fk.FyN == 0.0 && Fa.FxN == 0.0 && Fa.FyN == 0.0);
+			}
+		}
+	}
+}
+
+CODEX_TEST(Tire_ParamsValidation)
+{
+	CODEX_CHECK(IsValidTireParams(Params));
+	FTireParams Bad = Params;
+	Bad.RelaxationLengthYM = -0.55;
+	CODEX_CHECK(!IsValidTireParams(Bad));
+	Bad = Params;
+	Bad.Fz0N = 0.0;
+	CODEX_CHECK(!IsValidTireParams(Bad));
+	Bad = Params;
+	Bad.MinRelaxationSpeedMps = 0.0;
+	CODEX_CHECK(!IsValidTireParams(Bad));
 }
 
 CODEX_TEST(Tire_Determinism)
