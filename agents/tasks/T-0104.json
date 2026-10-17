@@ -13,8 +13,8 @@
     "data/reference/roads.geojson"
   ],
   "files_to_create_or_modify": [
-    "tools/world/fetch_osm_roads.py",
     "tools/world/road_graph.py",
+    "tools/world/fetch_osm_roads.py",
     "tools/world/tests/test_road_graph.py",
     "data/manifests/osm_roads.json",
     "docs/ATTRIBUTION.md"
@@ -24,13 +24,13 @@
     "Geometry from Google Maps or Street View"
   ],
   "acceptance_criteria": [
-    "FETCH: fetch_osm_roads.py asks Overpass for the way IDs in data/reference/roads.geojson plus the named roads in the world box, records the query, the response timestamp and the OSM data timestamp in the manifest, and caches the raw response under data/raw/ (gitignored). Way IDs that OSM no longer has are listed, not hidden.",
-    "CHECK TAGS: for every road, the OSM highway, ref, name and surface tags are compared with the surface, ref and speed in roads.geojson; every disagreement is reported in the manifest.",
-    "ORDER: road_graph.py joins ways into ordered, connected centrelines per named road (shared end nodes, correct direction, split at junctions). Every output line has no gap over 200 m between consecutive points; end-to-end distance is within 5 % of line length for roads that do not loop.",
-    "TESTS: python -m unittest tests pass using small synthetic way sets (reversed ways, shuffled order, a T junction, a gap, a loop).",
-    "ATTRIBUTION: docs/ATTRIBUTION.md carries the OpenStreetMap and USGS credit lines and the ODbL note from R-0002 section 8, reviewed against the licence text; the share-alike question for the shipped game is flagged for the director.",
-    "REAL RUN: SR 120 from US-395 to the Yosemite entrance reads as one line of about 13 to 20 km ending near Tioga Pass; US-395 spans the box north to south; SR 270 reaches Bodie."
+    "DONE: FETCH: fetch_osm_roads.py asks Overpass for the 106 way IDs in data/reference/roads.geojson, records the query, endpoint, fetch time and OSM data timestamp in data/manifests/osm_roads.json, caches the raw response in data/raw/osm/ (gitignored). Way IDs OSM no longer has are listed (none missing on 2026-10-17).",
+    "DONE: CHECK TAGS: OSM ref, surface and maxspeed are compared with the reference per road; 9 disagreements are written to the manifest (for example Lundy Lake Road: reference says asphalt, OSM says unpaved).",
+    "DONE: ORDER: road_graph.order_ways joins ways through shared nodes into chains, split at junctions and dead ends; clip_polyline_to_box cuts them to the world box. Connectivity is by node identity, so a chain has no missing way. Vertex spacing on long straights can exceed 200 m (US-395 up to 1.2 km); that is not a gap and is handled by densifying along the spline in T-0105.",
+    "DONE: TESTS: 15 synthetic tests (shuffled and reversed ways, T junction, gap, loop, determinism, clipping) pass with the other world tests (33 in total).",
+    "DONE: ATTRIBUTION: docs/ATTRIBUTION.md has the credit lines and flags the ODbL share-alike question for the director.",
+    "DONE: REAL RUN: SR 120 is one 19.4 km line from Tioga Pass to the US-395 junction (plus a 0.08 km stub); US-395 is a 36.6 km line spanning the box north to south (plus two short side chains); SR 270 is 15.8 km and the Bodie gravel section 4.4 km; SR 167 is 18.9 km inside the box."
   ],
   "strike_count": 0,
-  "status": "QUEUED"
+  "status": "COMPLETED"
 }

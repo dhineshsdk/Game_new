@@ -1,0 +1,478 @@
+{
+  "attribution": "(c) OpenStreetMap contributors, ODbL 1.0",
+  "overpass_endpoint": "https://overpass-api.de/api/interpreter",
+  "query": "[out:json][timeout:120];way(id:10450054,10450723,10455651,10457409,10457454,10458448,10461569,10462083,10462565,10463277,10463308,10463547,10463554,24815290,26401651,26401666,26401848,35972503,73929532,117987476,117987497,117987510,117987520,117987548,117987576,174815986,174815993,174815994,174815995,179319956,179319957,179319958,179319959,185218303,194189989,209268313,257351218,257351219,266954223,266954224,266954226,266954228,267330838,269147003,269147004,269147008,269147009,269147010,269147011,319042375,344003325,450030212,489166865,489166866,489166867,489166868,489166869,489166870,489166871,489166872,489166873,489166874,489166875,489166877,489166878,489166879,489166880,489166881,489166882,489166883,489166887,489166888,489166889,489166892,489166898,520725576,520725577,520725578,565936678,642011870,642011871,685861789,726871344,889972749,914828660,914846698,1001334171,1011258036,1029258830,1056645651,1056645652,1075201746,1231308899,1231308900,1231308901,1248154813,1248154814,1315224955,1363610467,1415718569,1415718570,1415718571,1415718575,1415718576,1415718577,1501123246);out geom;",
+  "cache_file": "data\\raw\\osm\\ways_4d30fed4127a68c7.json",
+  "osm_data_timestamp": "2026-10-17T15:40:36Z",
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "way_ids_claimed": 106,
+  "way_ids_found": 106,
+  "way_ids_missing": [],
+  "roads": [
+    {
+      "name": "State Route 120 (Tioga Pass Road)",
+      "claimed_ref": "CA 120",
+      "ways_claimed": 17,
+      "ways_found": 17,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            1011258036,
+            1001334171,
+            1231308899,
+            1231308900,
+            1231308901,
+            889972749,
+            267330838,
+            642011871,
+            1248154813,
+            1248154814,
+            185218303,
+            1075201746,
+            642011870,
+            10462565,
+            520725577
+          ],
+          "points": 676,
+          "length_km": 19.365,
+          "end_to_end_km": 13.442,
+          "max_vertex_spacing_m": 267.7
+        },
+        {
+          "chain": 1,
+          "way_ids": [
+            520725576,
+            520725578
+          ],
+          "points": 8,
+          "length_km": 0.081,
+          "end_to_end_km": 0.0,
+          "max_vertex_spacing_m": 17.3
+        }
+      ],
+      "tag_disagreements": [
+        "maxspeed: reference says 45 mph, OSM has ['40 mph', '50 mph']"
+      ]
+    },
+    {
+      "name": "US Highway 395 (Mono Basin Corridor)",
+      "claimed_ref": "US 395",
+      "ways_claimed": 61,
+      "ways_found": 61,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            269147009,
+            489166898,
+            489166892,
+            489166889,
+            117987476,
+            266954223,
+            1415718571,
+            489166888,
+            26401848,
+            117987576,
+            1415718570,
+            1415718577,
+            1415718575,
+            1415718576,
+            266954224,
+            489166887,
+            117987520,
+            266954226,
+            489166883,
+            489166882,
+            1415718569,
+            26401666,
+            489166881,
+            117987510,
+            489166880,
+            117987548,
+            266954228,
+            489166879,
+            489166877,
+            489166878,
+            26401651,
+            685861789,
+            117987497,
+            194189989,
+            269147003,
+            269147008,
+            489166873,
+            489166874,
+            489166875,
+            269147004,
+            1315224955,
+            174815995,
+            489166871,
+            489166870,
+            489166872,
+            489166869,
+            174815993
+          ],
+          "points": 842,
+          "length_km": 36.627,
+          "end_to_end_km": 31.265,
+          "max_vertex_spacing_m": 1244.3
+        },
+        {
+          "chain": 1,
+          "way_ids": [
+            174815986,
+            489166868,
+            179319957,
+            489166867,
+            179319956,
+            565936678,
+            450030212,
+            269147010
+          ],
+          "points": 47,
+          "length_km": 7.121,
+          "end_to_end_km": 6.908,
+          "max_vertex_spacing_m": 1210.3
+        },
+        {
+          "chain": 2,
+          "way_ids": [
+            174815994,
+            269147011,
+            489166865,
+            489166866,
+            179319958,
+            179319959
+          ],
+          "points": 50,
+          "length_km": 7.075,
+          "end_to_end_km": 6.892,
+          "max_vertex_spacing_m": 1125.5
+        }
+      ],
+      "tag_disagreements": []
+    },
+    {
+      "name": "State Route 167 (Pole Line Road)",
+      "claimed_ref": "CA 167",
+      "ways_claimed": 1,
+      "ways_found": 1,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            10463277
+          ],
+          "points": 41,
+          "length_km": 18.921,
+          "end_to_end_km": 18.911,
+          "max_vertex_spacing_m": 3058.7
+        }
+      ],
+      "tag_disagreements": []
+    },
+    {
+      "name": "State Route 270 (Bodie Road - Paved)",
+      "claimed_ref": "CA 270",
+      "ways_claimed": 2,
+      "ways_found": 2,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            257351219,
+            914846698
+          ],
+          "points": 434,
+          "length_km": 15.75,
+          "end_to_end_km": 12.539,
+          "max_vertex_spacing_m": 439.7
+        }
+      ],
+      "tag_disagreements": []
+    },
+    {
+      "name": "Bodie Road (Gravel Section)",
+      "claimed_ref": "CA 270 / County Road",
+      "ways_claimed": 3,
+      "ways_found": 3,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            257351218,
+            35972503,
+            1363610467
+          ],
+          "points": 75,
+          "length_km": 4.411,
+          "end_to_end_km": 3.846,
+          "max_vertex_spacing_m": 207.7
+        }
+      ],
+      "tag_disagreements": [
+        "maxspeed: reference says 25 mph, OSM has ['20 mph']"
+      ]
+    },
+    {
+      "name": "Lundy Lake Road",
+      "claimed_ref": null,
+      "ways_claimed": 4,
+      "ways_found": 4,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            10450054,
+            914828660,
+            10450723,
+            319042375
+          ],
+          "points": 282,
+          "length_km": 10.221,
+          "end_to_end_km": 9.097,
+          "max_vertex_spacing_m": 447.3
+        }
+      ],
+      "tag_disagreements": [
+        "surface: reference says asphalt, OSM has ['unpaved']"
+      ]
+    },
+    {
+      "name": "Test Station Road",
+      "claimed_ref": null,
+      "ways_claimed": 3,
+      "ways_found": 3,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            209268313,
+            24815290,
+            726871344
+          ],
+          "points": 150,
+          "length_km": 7.263,
+          "end_to_end_km": 6.167,
+          "max_vertex_spacing_m": 289.3
+        }
+      ],
+      "tag_disagreements": [
+        "surface: reference says compacted, OSM has ['asphalt', 'compacted', 'unpaved']"
+      ]
+    },
+    {
+      "name": "Picnic Grounds Road",
+      "claimed_ref": null,
+      "ways_claimed": 2,
+      "ways_found": 2,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            1029258830,
+            10462083
+          ],
+          "points": 148,
+          "length_km": 8.348,
+          "end_to_end_km": 4.658,
+          "max_vertex_spacing_m": 323.5
+        }
+      ],
+      "tag_disagreements": [
+        "surface: reference says gravel, OSM has ['paved', 'unpaved']"
+      ]
+    },
+    {
+      "name": "Poole Power Plant Road",
+      "claimed_ref": null,
+      "ways_claimed": 4,
+      "ways_found": 4,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            73929532,
+            1056645651,
+            1056645652,
+            1501123246
+          ],
+          "points": 230,
+          "length_km": 5.338,
+          "end_to_end_km": 4.672,
+          "max_vertex_spacing_m": 178.9
+        }
+      ],
+      "tag_disagreements": [
+        "surface: reference says asphalt, OSM has ['asphalt', 'unpaved']"
+      ]
+    },
+    {
+      "name": "Main Street (Lee Vining US 395)",
+      "claimed_ref": "US 395",
+      "ways_claimed": 2,
+      "ways_found": 2,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            1315224955,
+            269147004
+          ],
+          "points": 27,
+          "length_km": 1.196,
+          "end_to_end_km": 1.185,
+          "max_vertex_spacing_m": 283.8
+        }
+      ],
+      "tag_disagreements": [
+        "maxspeed: reference says 25 mph, OSM has ['30 mph']"
+      ]
+    },
+    {
+      "name": "Mattly Avenue",
+      "claimed_ref": null,
+      "ways_claimed": 1,
+      "ways_found": 1,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            10463308
+          ],
+          "points": 20,
+          "length_km": 0.898,
+          "end_to_end_km": 0.876,
+          "max_vertex_spacing_m": 217.8
+        }
+      ],
+      "tag_disagreements": []
+    },
+    {
+      "name": "Lee Vining Avenue",
+      "claimed_ref": null,
+      "ways_claimed": 1,
+      "ways_found": 1,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            10457409
+          ],
+          "points": 31,
+          "length_km": 0.674,
+          "end_to_end_km": 0.343,
+          "max_vertex_spacing_m": 104.5
+        }
+      ],
+      "tag_disagreements": [
+        "maxspeed: reference says 25 mph, OSM has ['15 mph']"
+      ]
+    },
+    {
+      "name": "Paoha Drive",
+      "claimed_ref": null,
+      "ways_claimed": 2,
+      "ways_found": 2,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            10455651,
+            10457454
+          ],
+          "points": 4,
+          "length_km": 0.163,
+          "end_to_end_km": 0.163,
+          "max_vertex_spacing_m": 95.2
+        }
+      ],
+      "tag_disagreements": []
+    },
+    {
+      "name": "Mono Lake Avenue",
+      "claimed_ref": null,
+      "ways_claimed": 1,
+      "ways_found": 1,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            10458448
+          ],
+          "points": 8,
+          "length_km": 0.26,
+          "end_to_end_km": 0.26,
+          "max_vertex_spacing_m": 65.1
+        }
+      ],
+      "tag_disagreements": [
+        "surface: no surface tag on any way (reference value cannot be checked)"
+      ]
+    },
+    {
+      "name": "Lee Vining Residential Streets (1st-4th St)",
+      "claimed_ref": null,
+      "ways_claimed": 4,
+      "ways_found": 4,
+      "ways_missing": [],
+      "chains": [
+        {
+          "chain": 0,
+          "way_ids": [
+            10461569
+          ],
+          "points": 7,
+          "length_km": 0.119,
+          "end_to_end_km": 0.119,
+          "max_vertex_spacing_m": 46.1
+        },
+        {
+          "chain": 1,
+          "way_ids": [
+            10463554
+          ],
+          "points": 7,
+          "length_km": 0.124,
+          "end_to_end_km": 0.123,
+          "max_vertex_spacing_m": 53.7
+        },
+        {
+          "chain": 2,
+          "way_ids": [
+            10463547
+          ],
+          "points": 11,
+          "length_km": 0.184,
+          "end_to_end_km": 0.184,
+          "max_vertex_spacing_m": 43.8
+        },
+        {
+          "chain": 3,
+          "way_ids": [
+            344003325
+          ],
+          "points": 6,
+          "length_km": 0.178,
+          "end_to_end_km": 0.178,
+          "max_vertex_spacing_m": 94.8
+        }
+      ],
+      "tag_disagreements": []
+    }
+  ]
+}
