@@ -1,0 +1,29 @@
+{
+  "task_id": "T-0007",
+  "title": "Migrate CodexVehicleDynamics params and state to pure Codex::Dynamics structs",
+  "phase": "Phase 2 - Dynamics Core",
+  "tier": "Tier 1",
+  "owner_agent": "Claude Opus 5.5",
+  "reviewer_agent": "Claude Opus 5.5",
+  "target_module": "CodexVehicleDynamics",
+  "reference_docs": ["CLAUDE.md", "docs/adr/0005-dynamics-module-purity.md", "docs/TECHNICAL_PHYSICS_AND_GIS_SPEC.md"],
+  "files_to_create_or_modify": [
+    "Source/CodexVehicleDynamics/Public/CodexVehicleParams.h",
+    "Source/CodexVehicleDynamics/Public/CodexVehicleSimulationState.h",
+    "Source/CodexVehicleDynamics/Private/CodexVehicleDynamicsModule.cpp",
+    "Source/CodexVehicleDynamics/Public/CodexVehicleDynamics.h (delete)",
+    "Source/CodexVehicleDynamics/Private/CodexVehicleDynamics.cpp (delete)",
+    "Source/CodexVehicleDynamics/CodexVehicleDynamics.Build.cs",
+    "Tests/Headless/Dynamics/VehicleParamsTests.cpp",
+    "Source/CodexTests/Private/CodexDynamicsUnitTests.cpp"
+  ],
+  "forbidden_dependencies": ["Engine", "CoreUObject", "Chaos", "PhysicsCore", "ChaosVehicles", "UnrealEd"],
+  "acceptance_criteria": [
+    "FVehicleParams and FVehicleSimulationState are plain structs in namespace Codex::Dynamics using double and Codex math types, with static_assert(std::is_trivially_copyable_v<T>). Spec numbers unchanged.",
+    "CodexVehicleDynamics.Build.cs dependencies exactly {Core, CodexCore}; FPSemantics = Precise; NoPCHs.",
+    "The two former automation tests run in the headless harness; CodexTests keeps one smoke automation test that includes the pure headers.",
+    "check_purity.ps1 passes for both modules; harness passes; UBT zero warnings."
+  ],
+  "strike_count": 0,
+  "status": "COMPLETED"
+}

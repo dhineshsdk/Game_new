@@ -16,8 +16,8 @@
    - Physics Thread (PT) ONLY: Inside `OnPreSimulate_Internal()`, access rigid bodies exclusively via `FPhysicsActorHandle->GetPhysicsThreadAPI()` returning `Chaos::FRigidBodyHandle_Internal*`.
    - Unit Conversion: All internal physics calculations in `CodexVehicleDynamics` use SI units (`m`, `kg`, `s`, `N`, `rad`). Multiply forces by `100.0f` and torques by `10000.0f` at the exact point of injection into Chaos (`kg*cm/s^2`).
 4. **Strict Module Dependency DAG:** Downward-only dependencies enforced in `.Build.cs`:
-   - `CodexCore` (Math, Units, Fixed-Point, Logging — ZERO engine/Chaos dependencies)
-   - `CodexVehicleDynamics` (Depends ONLY on `CodexCore` — Pure C++ Pacejka MF94, suspension, drivetrain, inertia, thermal math; 100% testable in headless C++ without booting UE5 Editor)
+   - `CodexCore` (Math, units, constants; standard C++20 only; UE `Core` is linked solely for module registration in `Private/CodexCoreModule.cpp`. See ADR 0005)
+   - `CodexVehicleDynamics` (Depends only on `CodexCore` with the same single-file module-glue exception; no UE headers, types or reflection elsewhere; Pure C++ Pacejka MF94, suspension, drivetrain, inertia, thermal math; built and tested by the headless harness `tools/test_headless.ps1` without UE)
    - `CodexVehicles` (Depends on `CodexVehicleDynamics`, `Chaos`, `Engine` — `TSimCallbackObject`, double-buffer marshaling, pawn/chassis actors)
    - `CodexWorld` | `CodexTraffic` | `CodexPhoto` | `CodexAudio` (Mid-tier subsystems)
    - `CodexGameplay` | `CodexUI` (Top-level campaign, co-op, border/visa, barn-find, and UI systems)

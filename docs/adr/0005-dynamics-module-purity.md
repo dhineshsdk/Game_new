@@ -1,6 +1,6 @@
 # ADR 0005: Pure C++ core for CodexCore and CodexVehicleDynamics
 
-- Status: proposed (needs director approval for the CLAUDE.md law 4 wording change in section "Consequences")
+- Status: accepted (director approved 2026-10-17, "do whatever suits"; law 4 wording applied to CLAUDE.md)
 - Date: 2026-10-17
 - Phase / workstream: P0 Foundation into P2 Dynamics core / A (dynamics) and I (tooling)
 

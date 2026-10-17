@@ -1,0 +1,28 @@
+{
+  "task_id": "T-0005",
+  "title": "CodexCore purity: own double-precision math types, module glue file, purity check script",
+  "phase": "Phase 2 - Dynamics Core",
+  "tier": "Tier 1",
+  "owner_agent": "Claude Opus 5.5",
+  "reviewer_agent": "Claude Opus 5.5",
+  "target_module": "CodexCore",
+  "reference_docs": ["CLAUDE.md", "docs/adr/0005-dynamics-module-purity.md"],
+  "files_to_create_or_modify": [
+    "Source/CodexCore/Public/CodexMath.h",
+    "Source/CodexCore/Private/CodexCoreModule.cpp",
+    "Source/CodexCore/Public/CodexCore.h (delete)",
+    "Source/CodexCore/Private/CodexCore.cpp (delete)",
+    "Source/CodexCore/CodexCore.Build.cs",
+    "tools/check_purity.ps1"
+  ],
+  "forbidden_dependencies": ["Engine", "CoreUObject", "Chaos", "PhysicsCore", "ChaosVehicles", "UnrealEd"],
+  "acceptance_criteria": [
+    "CodexMath.h provides Codex::FVec2d, FVec3d, FQuatd, FMat3d (double, trivially copyable, static_assert), GravityMps2 = 9.80665, ForceToChaos = 100.0, TorqueToChaos = 10000.0, Pi.",
+    "Module glue is only in Private/CodexCoreModule.cpp; CodexCore.h is deleted.",
+    "CodexCore.Build.cs: FPSemantics = Precise, PCHUsage = NoPCHs, dependencies exactly {Core}.",
+    "tools/check_purity.ps1 exits 0 for CodexCore and non-zero on a banned include or token.",
+    "UBT CodexEditor Win64 Development builds with zero errors and zero warnings."
+  ],
+  "strike_count": 0,
+  "status": "COMPLETED"
+}

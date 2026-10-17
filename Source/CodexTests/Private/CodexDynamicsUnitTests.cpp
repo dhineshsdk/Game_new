@@ -1,52 +1,27 @@
+// Integration smoke test: the pure dynamics headers compile inside a UE module and behave the same.
+// Unit tests for the pure modules run in the headless harness (tools/test_headless.ps1, ADR 0005).
 #include "CoreMinimal.h"
 #include "Misc/AutomationTest.h"
+#include "CodexTireModel.h"
 #include "CodexVehicleParams.h"
 #include "CodexVehicleSimulationState.h"
 
 #if WITH_DEV_AUTOMATION_TESTS
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FCodexVehicleBaselineParametersTest, "Codex.Physics.BaselineParameters", EAutomationTestFlags_ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FCodexPureDynamicsSmokeTest, "Codex.Physics.PureDynamicsSmoke", EAutomationTestFlags_ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
-bool FCodexVehicleBaselineParametersTest::RunTest(const FString& Parameters)
+bool FCodexPureDynamicsSmokeTest::RunTest(const FString& Parameters)
 {
-	FCodexVehicleParams Params;
+	static_assert(std::is_trivially_copyable_v<Codex::Dynamics::FVehicleSimulationState>);
 
-	// Verify Total Mass integrity
-	const float ExpectedTotalMass = Params.SprungMassKg + (2.0f * Params.UnsprungMassFrontKg) + (2.0f * Params.UnsprungMassRearKg);
-	TestEqual(TEXT("Total mass must equal sprung mass + 4 corners unsprung mass"), Params.TotalMassKg, ExpectedTotalMass);
+	const Codex::Dynamics::FVehicleParams VehicleParams;
+	TestEqual(TEXT("Baseline mass"), VehicleParams.TotalMassKg, 1300.0);
 
-	// Verify Static Axle Loads: Total Gravity = 1300 kg * 9.80665 m/s^2 = 12748.65 N
-	const float TotalWeightNewtons = Params.TotalMassKg * 9.80665f;
-	const float FrontAxleWeight = TotalWeightNewtons * Params.FrontWeightDistributionPercent;
-	const float RearAxleWeight = TotalWeightNewtons * (1.0f - Params.FrontWeightDistributionPercent);
-
-	// Reconciled spec: Front ~6757N, Rear ~5992N (+/- 10N)
-	TestNearlyEqual(TEXT("Front static axle load must match spec (6759 N +/- 10N)"), FrontAxleWeight, 6759.0f, 10.0f);
-	TestNearlyEqual(TEXT("Rear static axle load must match spec (5994 N +/- 10N)"), RearAxleWeight, 5994.0f, 10.0f);
-
-	// Verify Wheelbase = CG to Front + CG to Rear
-	TestNearlyEqual(TEXT("Wheelbase must equal distance to front axle + rear axle"), Params.WheelbaseMeters, Params.DistanceCGToFrontAxleMeters + Params.DistanceCGToRearAxleMeters, 0.001f);
-
-	// Verify Static Stability Factor (TrackWidth / (2 * CGHeight))
-	const float SSF = Params.TrackWidthFrontMeters / (2.0f * Params.CenterOfGravityHeightMeters);
-	TestNearlyEqual(TEXT("Static Stability Factor SSF ~ 1.41"), SSF, 1.412f, 0.01f);
-
-	return true;
-}
-
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FCodexVehicleStateStructSerializationTest, "Codex.Physics.StateSerialization", EAutomationTestFlags_ApplicationContextMask | EAutomationTestFlags::ProductFilter)
-
-bool FCodexVehicleStateStructSerializationTest::RunTest(const FString& Parameters)
-{
-	FCodexVehicleSimulationState StateA;
-	StateA.SimulationFrame = 120;
-	StateA.SimulationTimeSeconds = 1.0;
-	StateA.EngineRPM = 3200.0f;
-	StateA.LinearVelocity = FVector(20.0, 0.0, 0.0); // 20 m/s (~72 km/h)
-	StateA.FuelRemainingLiters = 42.5f;
-
-	TestTrue(TEXT("Initial state should have valid frame and time"), StateA.SimulationFrame == 120 && StateA.SimulationTimeSeconds == 1.0);
-	TestEqual(TEXT("Engine RPM should match set value"), StateA.EngineRPM, 3200.0f);
+	// Same build flags question as the harness: the UBT-built model must match the oracle's golden point.
+	const Codex::Dynamics::FTireSurfaceCoeffs DryAsphalt { 1.00, 10.00, 1.30, -1.00, 10.00, 1.30, -1.00 };
+	const Codex::Dynamics::FTireParams TireParams;
+	const double Fy = Codex::Dynamics::PureLateralForce(0.05, 3200.0, TireParams, DryAsphalt);
+	TestNearlyEqual(TEXT("Dry Fy at 0.05 rad, 3200 N matches oracle"), Fy, 1911.015950, 1e-3);
 
 	return true;
 }

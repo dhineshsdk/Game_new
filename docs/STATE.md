@@ -2,8 +2,8 @@
 
 **Last Updated:** 2026-10-17  
 **Current Execution Tier:** TIER 1 (Mono Basin Vertical Slice)  
-**Current Phase:** Phase 0 (Foundation & Module Skeleton) complete -> ADR 0005 decision, then Phase 2  
-**Build Status:** GREEN (UE 5.8.3, CodexEditor Win64 Development, 0 errors / 0 warnings; 2/2 Codex automation tests pass)
+**Current Phase:** Phase 2 (Dynamics Core): pure core and tyre model done; next T-0008 (state snapshot and hash), then T-0201 (120 Hz solver)  
+**Build Status:** GREEN (UE 5.8.3, CodexEditor Win64 Development, 0 errors / 0 warnings; headless harness 18/18; automation smoke test passes; purity check passes)
 
 ---
 
@@ -15,8 +15,10 @@
 | `T-0002` | **COMPLETED** | Claude Sonnet 5.5 | `All` | Added stub modules (`CodexWorld`, `CodexTraffic`, `CodexPhoto`, `CodexAudio`, `CodexGameplay`, `CodexUI`, `CodexEditor`). Verified by the T-0003 build on 2026-10-17. |
 | `T-0003` | **COMPLETED** | Claude Opus 5.5 | `All` | UE 5.8.3 pinned. `CodexEditor` Win64 Development builds with 0 errors, 0 warnings (2026-10-17). `CodexVehicleAsyncCallback.h` now computes world CoM from `GetX()/GetR()/CenterOfMass()` because `FRigidBodyHandle_Internal` has no `GetP/GetQ` in 5.8. Automation tests `Codex.Physics.BaselineParameters` and `Codex.Physics.StateSerialization` pass. |
 | `T-0004` | **IN_PROGRESS** | Claude Opus 5.5 | `CodexEditor` | Editor bridge. Verified: Blender runner, UE Python runner, Epic MCP server loaded natively in Claude Code, Blender Lab MCP add-on on port 9876. Pending: viewport capture and log read through MCP. |
-| `T-0005`..`T-0007` | **PROPOSED** | Claude Sonnet 5.5 | `CodexCore`, `CodexVehicleDynamics` | Purity, headless harness and dynamics migration per ADR 0005 (status: proposed, awaiting director approval). Task files not yet written. |
-| `T-0101` | **QUEUED** | Claude Sonnet 5.5 | `CodexVehicleDynamics` | Pure C++ Pacejka MF94 tyre model. Blocked on T-0005..T-0007 (see `agents/tasks/T-0101.json`). |
+| `T-0005` | **COMPLETED** | Claude Opus 5.5 | `CodexCore` | ADR 0005 accepted by the director. `CodexMath.h` (FVec2d/FVec3d/FQuatd/FMat3d, constants), `CodexExport.h`, glue only in `CodexCoreModule.cpp`, `FPSemantics = Precise` (confirmed in the module response file), `NoPCHs`. `tools/check_purity.ps1` passes. |
+| `T-0006` | **COMPLETED** | Claude Opus 5.5 | headless tests | `tools/test_headless.ps1` builds and runs `Tests/Headless` with cl.exe (/W4 /WX /fp:precise), no UE. Build + run 1.7 s. Exits 1 on the deliberate self-test failure. |
+| `T-0007` | **COMPLETED** | Claude Opus 5.5 | `CodexVehicleDynamics` | Params and state are plain `Codex::Dynamics` structs (double, trivially copyable). `FrontWeightDistributionPercent` renamed `FrontWeightFraction`. Former automation tests moved to the harness; `Codex.Physics.PureDynamicsSmoke` stays in CodexTests and passes. |
+| `T-0101` | **COMPLETED (needs independent review)** | Claude Opus 5.5 | `CodexVehicleDynamics` | Pacejka MF94 tyre model (`CodexTireModel.h/.cpp`): load sensitivity, pure and combined slip, exact-exponential relaxation. Python oracle writes a 24,420-row golden CSV; all hand values agree; 13 tyre tests pass including the friction-circle grid and a 1M-call determinism hash. Implemented and self-checked by the same agent, so an independent reviewer pass is still owed. |
 | `T-0102` | **QUEUED** | Gemini 3.1 Pro | `CodexEditor` | Write Python script to fetch USGS 3DEP 1m DEM for Mono Basin (`EPSG:6340`) and convert to 16-bit PNG heightmap (`Scale.Z = 400.396735`). |
 | `T-0201` | **QUEUED** | Claude Sonnet 5.5 | `CodexVehicleDynamics` | Implement pure C++ 120 Hz solver (`FCodexVehicleSimulationState`) and headless unit tests (`CodexTests`) verifying static axle loads ($6759\text{ N}$ F / $5994\text{ N}$ R) and steady-state lateral G. |
 

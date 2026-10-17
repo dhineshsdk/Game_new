@@ -1,103 +1,59 @@
 #pragma once
 
-#include "CoreMinimal.h"
-#include "CodexVehicleSimulationState.generated.h"
+// Single vehicle simulation state. Captures the 120 Hz physical and condition state for
+// deterministic replay, headless tests and telemetry. Pure C++ (ADR 0005): trivially copyable
+// so it can be copied by value across the game/physics thread boundary. Serialization is an
+// explicit versioned snapshot (T-0008), never a memcpy of this struct.
+// Corner arrays are indexed [0:FL, 1:FR, 2:RL, 3:RR]. SI units throughout.
 
-/**
- * Single serializable vehicle simulation state struct.
- * Completely captures the 120 Hz physical and condition state for deterministic replay,
- * automated unit tests, and telemetry logging.
- */
-USTRUCT()
-struct CODEXVEHICLEDYNAMICS_API FCodexVehicleSimulationState
+#include "CodexMath.h"
+
+#include <cstdint>
+#include <type_traits>
+
+namespace Codex::Dynamics
 {
-	GENERATED_BODY()
+	inline constexpr int NumCorners = 4;
 
-	UPROPERTY(EditAnywhere,Category = "Simulation")
-	uint32 SimulationFrame = 0;
+	struct FVehicleSimulationState
+	{
+		uint32_t SimulationFrame = 0;
+		double SimulationTimeS = 0.0;
 
-	UPROPERTY(EditAnywhere,Category = "Simulation")
-	double SimulationTimeSeconds = 0.0;
+		// Rigid body (world frame)
+		FVec3d WorldLocationM;
+		FQuatd WorldRotation;
+		FVec3d LinearVelocityMps;
+		FVec3d AngularVelocityRadps;
 
-	// Rigid Body State (SI Units internally: m, m/s, rad/s)
-	UPROPERTY(EditAnywhere,Category = "RigidBody")
-	FVector WorldLocation = FVector::ZeroVector;
+		// Powertrain
+		double EngineRpm = 800.0;
+		double ThrottlePosition = 0.0;
+		double ClutchEngagement = 1.0;
+		int32_t CurrentGear = 1;
+		double DriveshaftRpm = 0.0;
+		double CarburetorMixtureTrim = 0.0;
 
-	UPROPERTY(EditAnywhere,Category = "RigidBody")
-	FQuat WorldRotation = FQuat::Identity;
+		// Corners
+		double SuspensionCompressionM[NumCorners] = { 0.0, 0.0, 0.0, 0.0 };
+		double SuspensionVelocityMps[NumCorners] = { 0.0, 0.0, 0.0, 0.0 };
+		double WheelAngularVelocityRadps[NumCorners] = { 0.0, 0.0, 0.0, 0.0 };
+		double TireSlipAngleRad[NumCorners] = { 0.0, 0.0, 0.0, 0.0 };
+		double TireSlipRatio[NumCorners] = { 0.0, 0.0, 0.0, 0.0 };
+		FVec2d TireRelaxedForceN[NumCorners] = {}; // X: longitudinal, Y: lateral
+		double TirePressurePsi[NumCorners] = { 32.0, 32.0, 32.0, 32.0 };
+		double BrakeTemperatureC[NumCorners] = { 20.0, 20.0, 20.0, 20.0 };
 
-	UPROPERTY(EditAnywhere,Category = "RigidBody")
-	FVector LinearVelocity = FVector::ZeroVector;
+		// Dynamic mass, slosh and condition
+		double FuelRemainingL = 50.0;
+		FVec2d FuelSloshOffsetM;
+		FVec2d FuelSloshVelocityMps;
+		double AddedCargoMassKg = 0.0;
+		FVec3d AddedCargoLocalCoMM;
+		double EngineCoolantTempC = 85.0;
+		double BatteryChargeAh = 55.0;
+		double MechanicalOdometerM = 184320000.0;
+	};
 
-	UPROPERTY(EditAnywhere,Category = "RigidBody")
-	FVector AngularVelocity = FVector::ZeroVector;
-
-	// Powertrain State
-	UPROPERTY(EditAnywhere,Category = "Powertrain")
-	float EngineRPM = 800.0f;
-
-	UPROPERTY(EditAnywhere,Category = "Powertrain")
-	float ThrottlePosition = 0.0f;
-
-	UPROPERTY(EditAnywhere,Category = "Powertrain")
-	float ClutchEngagement = 1.0f;
-
-	UPROPERTY(EditAnywhere,Category = "Powertrain")
-	int32 CurrentGear = 1;
-
-	UPROPERTY(EditAnywhere,Category = "Powertrain")
-	float DriveshaftRPM = 0.0f;
-
-	UPROPERTY(EditAnywhere,Category = "Powertrain")
-	float CarburetorMixtureTrim = 0.0f;
-
-	// Corner States [0:FL, 1:FR, 2:RL, 3:RR]
-	UPROPERTY(EditAnywhere,Category = "Suspension")
-	float SuspensionCompression[4] = { 0.f, 0.f, 0.f, 0.f };
-
-	UPROPERTY(EditAnywhere,Category = "Suspension")
-	float SuspensionVelocity[4] = { 0.f, 0.f, 0.f, 0.f };
-
-	UPROPERTY(EditAnywhere,Category = "Tires")
-	float WheelAngularVelocity[4] = { 0.f, 0.f, 0.f, 0.f };
-
-	UPROPERTY(EditAnywhere,Category = "Tires")
-	float TireSlipAngle[4] = { 0.f, 0.f, 0.f, 0.f };
-
-	UPROPERTY(EditAnywhere,Category = "Tires")
-	float TireSlipRatio[4] = { 0.f, 0.f, 0.f, 0.f };
-
-	UPROPERTY(EditAnywhere,Category = "Tires")
-	FVector2f TireRelaxedForce[4] = { FVector2f::ZeroVector, FVector2f::ZeroVector, FVector2f::ZeroVector, FVector2f::ZeroVector };
-
-	UPROPERTY(EditAnywhere,Category = "Tires")
-	float TirePressurePSI[4] = { 32.0f, 32.0f, 32.0f, 32.0f };
-
-	UPROPERTY(EditAnywhere,Category = "Brakes")
-	float BrakeThermalStateC[4] = { 20.0f, 20.0f, 20.0f, 20.0f };
-
-	// Dynamic Mass, Slosh & Condition State
-	UPROPERTY(EditAnywhere,Category = "Condition")
-	float FuelRemainingLiters = 50.0f;
-
-	UPROPERTY(EditAnywhere,Category = "Condition")
-	FVector2f FuelSloshOffset = FVector2f::ZeroVector;
-
-	UPROPERTY(EditAnywhere,Category = "Condition")
-	FVector2f FuelSloshVelocity = FVector2f::ZeroVector;
-
-	UPROPERTY(EditAnywhere,Category = "Condition")
-	float AddedCargoMassKg = 0.0f;
-
-	UPROPERTY(EditAnywhere,Category = "Condition")
-	FVector AddedCargoLocalCoM = FVector::ZeroVector;
-
-	UPROPERTY(EditAnywhere,Category = "Condition")
-	float EngineCoolantTempC = 85.0f;
-
-	UPROPERTY(EditAnywhere,Category = "Condition")
-	float BatteryChargeAh = 55.0f;
-
-	UPROPERTY(EditAnywhere,Category = "Condition")
-	double MechanicalOdometerMeters = 184320000.0;
-};
+	static_assert(std::is_trivially_copyable_v<FVehicleSimulationState>);
+}

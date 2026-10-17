@@ -1,72 +1,43 @@
 #pragma once
 
-#include "CoreMinimal.h"
-#include "CodexVehicleParams.generated.h"
+// Baseline mechanical constants for the 1985-1990 RWD sedan (~1300 kg).
+// Values from docs/TECHNICAL_PHYSICS_AND_GIS_SPEC.md section 1. Pure C++ (ADR 0005); the
+// editor-tunable UE mirror is added in CodexVehicles when the Physics Lab needs it (T-0009).
 
-/**
- * Baseline mechanical constants for 1985-1990 RWD Sedan (~1300 kg).
- * Reconciled from TECHNICAL_PHYSICS_AND_GIS_SPEC.md.
- */
-USTRUCT(BlueprintType)
-struct CODEXVEHICLEDYNAMICS_API FCodexVehicleParams
+#include "CodexMath.h"
+
+#include <type_traits>
+
+namespace Codex::Dynamics
 {
-	GENERATED_BODY()
+	struct FVehicleParams
+	{
+		// Mass
+		double TotalMassKg = 1300.0;
+		double SprungMassKg = 1140.0;
+		double UnsprungMassFrontKg = 38.0;
+		double UnsprungMassRearKg = 42.0;
+		double FrontWeightFraction = 0.53; // 0..1 share of total weight on the front axle
+		double CenterOfGravityHeightM = 0.510;
 
-	// Mass Properties
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mass")
-	float TotalMassKg = 1300.0f;
+		// Geometry
+		double WheelbaseM = 2.620;
+		double TrackWidthFrontM = 1.440;
+		double TrackWidthRearM = 1.450;
+		double DistanceCGToFrontAxleM = 1.231;
+		double DistanceCGToRearAxleM = 1.389;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mass")
-	float SprungMassKg = 1140.0f;
+		// Principal moments of inertia (kg*m^2): roll, pitch, yaw
+		FVec3d InertiaTensorKgM2 { 440.0, 2150.0, 2280.0 };
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mass")
-	float UnsprungMassFrontKg = 38.0f;
+		// Suspension (wheel rates)
+		double WheelSpringRateFrontNpm = 26000.0;
+		double WheelSpringRateRearNpm = 29000.0;
+		double DamperRateBumpFrontNspm = 2200.0;
+		double DamperRateBumpRearNspm = 2400.0;
+		double DamperRateReboundFrontNspm = 3400.0;
+		double DamperRateReboundRearNspm = 3800.0;
+	};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mass")
-	float UnsprungMassRearKg = 42.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mass")
-	float FrontWeightDistributionPercent = 0.53f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mass")
-	float CenterOfGravityHeightMeters = 0.510f;
-
-	// Dimensions
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Geometry")
-	float WheelbaseMeters = 2.620f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Geometry")
-	float TrackWidthFrontMeters = 1.440f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Geometry")
-	float TrackWidthRearMeters = 1.450f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Geometry")
-	float DistanceCGToFrontAxleMeters = 1.231f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Geometry")
-	float DistanceCGToRearAxleMeters = 1.389f;
-
-	// Moments of Inertia (kg*m^2)
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inertia")
-	FVector InertiaTensorKgM2 = FVector(440.0f, 2150.0f, 2280.0f); // Roll, Pitch, Yaw
-
-	// Suspension Rates
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Suspension")
-	float WheelSpringRateFrontNm = 26000.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Suspension")
-	float WheelSpringRateRearNm = 29000.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Suspension")
-	float DamperRateBumpFrontNsm = 2200.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Suspension")
-	float DamperRateBumpRearNsm = 2400.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Suspension")
-	float DamperRateReboundFrontNsm = 3400.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Suspension")
-	float DamperRateReboundRearNsm = 3800.0f;
-};
+	static_assert(std::is_trivially_copyable_v<FVehicleParams>);
+}
